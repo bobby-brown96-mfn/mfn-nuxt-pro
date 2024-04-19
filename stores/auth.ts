@@ -1,9 +1,9 @@
 import {
-    type LoginInput,
     SigninDocument,
     RefreshTokensDocument,
     LogoutDocument,
 } from "~/api/generated/types";
+import type { LoginInput } from "#graphql-operations";
 import { jwtDecode } from "jwt-decode";
 import type { IDecodedToken, IFormattedToken } from "~/appTypes";
 
