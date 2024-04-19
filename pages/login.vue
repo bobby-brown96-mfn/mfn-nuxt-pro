@@ -1,42 +1,49 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'auth'
-})
+  layout: "auth",
+});
 
 useSeoMeta({
-  title: 'Login'
-})
+  title: "Login",
+});
 
-const fields = [{
-  name: 'email',
-  type: 'text',
-  label: 'Email',
-  placeholder: 'Enter your email'
-}, {
-  name: 'password',
-  label: 'Password',
-  type: 'password',
-  placeholder: 'Enter your password'
-}]
+const fields = [
+  {
+    name: "email",
+    type: "text",
+    label: "Email",
+    placeholder: "Enter your email",
+  },
+  {
+    name: "password",
+    label: "Password",
+    type: "password",
+    placeholder: "Enter your password",
+  },
+];
 
 const validate = (state: any) => {
-  const errors = []
-  if (!state.email) errors.push({ path: 'email', message: 'Email is required' })
-  if (!state.password) errors.push({ path: 'password', message: 'Password is required' })
-  return errors
-}
+  const errors = [];
+  if (!state.email)
+    errors.push({ path: "email", message: "Email is required" });
+  if (!state.password)
+    errors.push({ path: "password", message: "Password is required" });
+  return errors;
+};
 
-const providers = [{
-  label: 'Continue with GitHub',
-  icon: 'i-simple-icons-github',
-  color: 'white' as const,
-  click: () => {
-    console.log('Redirect to GitHub')
-  }
-}]
+// const providers = [
+//   {
+//     label: "Continue with GitHub",
+//     icon: "i-simple-icons-github",
+//     color: "white" as const,
+//     click: () => {
+//       console.log("Redirect to GitHub");
+//     },
+//   },
+// ];
 
-function onSubmit (data: any) {
-  console.log('Submitted', data)
+function onSubmit(data: any) {
+  console.log("Submitted", data);
 }
 </script>
 
@@ -47,7 +54,6 @@ function onSubmit (data: any) {
     <UAuthForm
       :fields="fields"
       :validate="validate"
-      :providers="providers"
       title="Welcome back"
       align="top"
       icon="i-heroicons-lock-closed"
@@ -56,15 +62,23 @@ function onSubmit (data: any) {
       @submit="onSubmit"
     >
       <template #description>
-        Don't have an account? <NuxtLink to="/signup" class="text-primary font-medium">Sign up</NuxtLink>.
+        Don't have an account?
+        <NuxtLink to="/signup" class="text-primary font-medium"
+          >Sign up</NuxtLink
+        >.
       </template>
 
       <template #password-hint>
-        <NuxtLink to="/" class="text-primary font-medium">Forgot password?</NuxtLink>
+        <NuxtLink to="/" class="text-primary font-medium"
+          >Forgot password?</NuxtLink
+        >
       </template>
 
       <template #footer>
-        By signing in, you agree to our <NuxtLink to="/" class="text-primary font-medium">Terms of Service</NuxtLink>.
+        By signing in, you agree to our
+        <NuxtLink to="/" class="text-primary font-medium"
+          >Terms of Service</NuxtLink
+        >.
       </template>
     </UAuthForm>
   </UCard>

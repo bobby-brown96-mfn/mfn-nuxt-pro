@@ -26,7 +26,7 @@ export default defineNuxtConfig({
     graphqlEndpoint: "http://localhost:3005/graphql",
     downloadSchema: false,
     schemaPath: "./schema.gql",
-    autoImportPatterns: ["gql-docs/**/*.{gql,graphql}"]
+    autoImportPatterns: ["gql-docs/**/*.{gql,graphql}"],
   },
   ui: {
     icons: ["heroicons", "simple-icons"],
@@ -39,7 +39,7 @@ export default defineNuxtConfig({
     enabled: true,
   },
   future: {
-    typescriptBundlerResolution: false
+    typescriptBundlerResolution: false,
   },
   runtimeConfig: {
     public: {
@@ -48,8 +48,8 @@ export default defineNuxtConfig({
         refreshCookieName: "rf",
       },
       redirect: {
-        login: "/access/login",
-        register: "/access/register",
+        login: "/login",
+        register: "/signup",
         logout: "/access/logout",
         callback: "/access/auth/callback",
         passwordReset: "/access/auth/passwordReset",

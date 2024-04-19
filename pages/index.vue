@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: "landing",
+});
 const { data: page } = await useAsyncData("index", () =>
   queryContent("/").findOne()
 );
