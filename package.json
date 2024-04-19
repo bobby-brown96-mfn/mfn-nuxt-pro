@@ -8,8 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint .",
-    "typecheck": "nuxt typecheck"
+    "typecheck": "nuxt typecheck",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
     "@iconify-json/heroicons": "^1.1.20",
@@ -19,6 +19,9 @@
     "@nuxt/image": "^1.4.0",
     "@nuxt/ui-pro": "^1.1.0",
     "@vueuse/nuxt": "^10.9.0",
+    "graphql": "^16.8.1",
+    "graphql-request": "^6.1.0",
+    "jwt-decode": "^4.0.0",
     "nuxt": "^3.11.2",
     "nuxt-og-image": "^2.2.4"
   },

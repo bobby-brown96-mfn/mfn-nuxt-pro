@@ -27,5 +27,13 @@ export default defineNuxtConfig({
   },
   devtools: {
     enabled: true
+  },
+  runtimeConfig: {
+    public: {
+      mfnGqlApi: {
+        endpoint: "http://localhost:3005/graphql",
+        refreshCookieName: "rf",
+      },
+    }
   }
 })

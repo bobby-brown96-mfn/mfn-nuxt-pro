@@ -1,0 +1,52 @@
+fragment staticCountry on Country {
+  code
+  countryCurrencyCode
+  id
+  locale
+  name
+  timezones
+}
+
+fragment staticCurrency on Currency {
+  code
+  currencyFraction
+  currencyFractionUnits
+  currencySymbol
+  id
+  name
+}
+
+fragment selectCountry on Country {
+  code
+  name
+}
+
+fragment selectCurrency on Currency {
+  code
+  name
+  currencySymbol
+}
+
+query staticLists {
+  countries(input: { isActive: { equals: true } }) {
+    ...staticCountry
+  }
+  currencies(where: { isActive: { equals: true } }) {
+    ...staticCurrency
+  }
+}
+
+query dropdownStaticLists {
+  countries(input: { isActive: { equals: true } }) {
+    ...selectCountry
+  }
+  currencies(where: { isActive: { equals: true } }) {
+    ...selectCurrency
+  }
+}
+
+query searchCountriesPublic($input: CountryWhereInput!) {
+  countries(input: $input) {
+    ...staticCountry
+  }
+}
