@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@nuxthq/studio',
     '@vueuse/nuxt',
     'nuxt-og-image',
+    "@pinia/nuxt",
   ],
   hooks: {
     // Define `@nuxt/ui` components as global to use them in `.md` (feel free to add those you need)
@@ -33,6 +34,16 @@ export default defineNuxtConfig({
       mfnGqlApi: {
         endpoint: "http://localhost:3005/graphql",
         refreshCookieName: "rf",
+      },
+      redirect: {
+        login: "/access/login",
+        register: "/access/register",
+        logout: "/access/logout",
+        callback: "/access/auth/callback",
+        passwordReset: "/access/auth/passwordReset",
+        emailVerify: "/access/auth/emailVerify",
+        home: "/home",
+        app: "/app",
       },
     }
   }

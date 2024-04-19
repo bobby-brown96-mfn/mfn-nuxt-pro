@@ -18,12 +18,14 @@
     "@nuxt/fonts": "^0.5.1",
     "@nuxt/image": "^1.4.0",
     "@nuxt/ui-pro": "^1.1.0",
+    "@pinia/nuxt": "^0.5.1",
     "@vueuse/nuxt": "^10.9.0",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
     "jwt-decode": "^4.0.0",
     "nuxt": "^3.11.2",
-    "nuxt-og-image": "^2.2.4"
+    "nuxt-og-image": "^2.2.4",
+    "pinia": "^2.1.7"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { DropdownStaticListsDocument } from "~/api/generated/types";
-
 const { data: page } = await useAsyncData("index", () =>
   queryContent("/").findOne()
 );
@@ -18,15 +16,6 @@ useSeoMeta({
   ogTitle: page.value.title,
   description: page.value.description,
   ogDescription: page.value.description,
-});
-
-const { $mfnGqlApi } = useNuxtApp();
-
-const { data } = await useAsyncData("dropdownStaticLists", async () => {
-  const data = await $mfnGqlApi.request({
-    document: DropdownStaticListsDocument,
-  });
-  return data;
 });
 </script>
 
