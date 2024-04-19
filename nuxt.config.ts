@@ -54,7 +54,7 @@ export default defineNuxtConfig({
         callback: "/access/auth/callback",
         passwordReset: "/access/auth/passwordReset",
         emailVerify: "/access/auth/emailVerify",
-        home: "/home",
+        home: "/app",
         app: "/app",
       },
     },

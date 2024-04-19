@@ -8,7 +8,7 @@ const links = [
     id: "home",
     label: "Home",
     icon: "i-heroicons-home",
-    to: "/",
+    to: "/app",
     tooltip: {
       text: "Home",
       shortcuts: ["G", "H"],

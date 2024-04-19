@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import type { LoginInput } from "#graphql-operations";
+
+const auth = useAuthStore();
+
 definePageMeta({
   layout: "auth",
 });
@@ -6,6 +10,8 @@ definePageMeta({
 useSeoMeta({
   title: "Login",
 });
+
+const toast = useToast();
 
 const fields = [
   {
@@ -41,9 +47,19 @@ const validate = (state: any) => {
 //     },
 //   },
 // ];
+const isProcessing = ref(false);
+async function onSubmit(data: LoginInput) {
+  isProcessing.value = true;
+  toast.add({ title: "Logging In", timeout: 3000 });
+  await new Promise((resolve) => setTimeout(resolve, 3000));
 
-function onSubmit(data: any) {
-  console.log("Submitted", data);
+  try {
+    const loginRes = await auth.login(data);
+  } catch (e) {
+    console.log("Error submitting login: " + e);
+  }
+  console.log("Submitted", data.email);
+  isProcessing.value = false;
 }
 </script>
 
@@ -60,6 +76,7 @@ function onSubmit(data: any) {
       :ui="{ base: 'text-center', footer: 'text-center' }"
       :submit-button="{ trailingIcon: 'i-heroicons-arrow-right-20-solid' }"
       @submit="onSubmit"
+      :loading="isProcessing"
     >
       <template #description>
         Don't have an account?
