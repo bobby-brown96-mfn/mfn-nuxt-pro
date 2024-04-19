@@ -26,7 +26,7 @@ export default defineNuxtConfig({
     graphqlEndpoint: "http://localhost:3005/graphql",
     downloadSchema: false,
     schemaPath: "./schema.gql",
-    autoImportPatterns: ["gql-docs/**/*.{gql,graphql}"],
+    autoImportPatterns: ["api/**/*.{gql,graphql}"],
   },
   ui: {
     icons: ["heroicons", "simple-icons"],

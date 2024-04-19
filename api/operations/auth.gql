@@ -1,4 +1,4 @@
-#import "~/gql-docs/fragments/auth.fragment.gql"
+#import "~/api/fragments/auth.fragment.gql"
 
 mutation signin($input: LoginInput!) {
   signin(input: $input) {

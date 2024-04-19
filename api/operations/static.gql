@@ -1,4 +1,4 @@
-#import "~/gql-docs/fragments/static.fragment.gql"
+#import "~/api/fragments/static.fragment.gql"
 
 query staticLists {
   countries(input: { isActive: { equals: true } }) {
