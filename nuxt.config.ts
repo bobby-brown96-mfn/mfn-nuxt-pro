@@ -38,6 +38,9 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+  future: {
+    typescriptBundlerResolution: false
+  },
   runtimeConfig: {
     public: {
       mfnGqlApi: {

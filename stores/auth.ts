@@ -1,8 +1,4 @@
-import {
-    SigninDocument,
-    RefreshTokensDocument,
-    LogoutDocument,
-} from "~/api/generated/types";
+
 import type { LoginInput } from "#graphql-operations";
 import { jwtDecode } from "jwt-decode";
 import type { IDecodedToken, IFormattedToken } from "~/appTypes";
@@ -52,10 +48,11 @@ export const useAuthStore = defineStore("authStore", {
                 // The protected page the user has visited before redirect to login page
                 const returnToPath = route.query.redirect?.toString();
 
-                const { signin } = await useNuxtApp().$mfnGqlApi.request({
-                    document: SigninDocument,
-                    variables: { input },
-                });
+                const { data, errors } = await useGraphqlMutation("signin", {
+                    input
+                })
+
+                const { signin } = data
 
                 const { access_token, ...user } = signin;
 
@@ -71,12 +68,14 @@ export const useAuthStore = defineStore("authStore", {
         },
         async refreshAccess() {
             try {
-                const refreshResult = await useNuxtApp().$mfnGqlApi.request({
-                    document: RefreshTokensDocument,
-                });
+                const refreshTokenResult = await useGraphqlMutation("refreshTokens")
 
-                if (refreshResult.refreshSession) {
-                    this.accessToken = refreshResult.refreshSession.access_token;
+                // const refreshResult = await useNuxtApp().$mfnGqlApi.request({
+                //     document: RefreshTokensDocument,
+                // });
+
+                if (refreshTokenResult.data.refreshSession) {
+                    this.accessToken = refreshTokenResult.data.refreshSession.access_token;
                 }
             } catch (e) {
                 console.log("refresh error : ", JSON.stringify(e, null, 2));
@@ -102,9 +101,7 @@ export const useAuthStore = defineStore("authStore", {
         },
         async logout() {
             const runtimeConfig = useRuntimeConfig().public;
-            const logoutResult = await useNuxtApp().$mfnGqlApi.request(
-                LogoutDocument
-            );
+            const logoutResult = await useGraphqlMutation("logout")
             console.log(`logout res is ${logoutResult}`);
 
             this.accessToken = null;
