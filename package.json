@@ -24,6 +24,7 @@
     "graphql-request": "^6.1.0",
     "jwt-decode": "^4.0.0",
     "nuxt": "^3.11.2",
+    "nuxt-graphql-middleware": "^4.0.0",
     "nuxt-og-image": "^2.2.4",
     "pinia": "^2.1.7"
   },
