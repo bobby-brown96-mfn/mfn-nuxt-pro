@@ -1,4 +1,4 @@
-import type { Role } from "~/api/generated/types";
+import type { Role } from "#graphql-operations";
 
 export interface IDecodedToken {
   email: string;
@@ -13,4 +13,11 @@ export interface IFormattedToken extends Pick<IDecodedToken, "email" | "role"> {
   isExpired: boolean;
   userId: string;
   expiresAt: string;
+}
+
+export type Period = "daily" | "weekly" | "monthly";
+
+export interface Range {
+  start: Date;
+  end: Date;
 }
