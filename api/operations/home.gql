@@ -1,0 +1,7 @@
+#import "~/api/fragments/book.fragment.gql"
+
+query homeBooksList($where: BookWhereInput!) {
+  books(where: $where, orderBy: [{ bookNumber: asc }]) {
+    ...homeBookEntry
+  }
+}

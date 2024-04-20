@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import type { NavItem } from '@nuxt/content/dist/runtime/types'
+definePageMeta({
+  layout: "landing",
+  auth: false,
+});
 
-const navigation = inject<Ref<NavItem[]>>('navigation', ref([]))
+import type { NavItem } from "@nuxt/content/dist/runtime/types";
 
-const links = computed(() => navigation.value.find((item) => item._path === '/docs')?.children ?? [])
+const navigation = inject<Ref<NavItem[]>>("navigation", ref([]));
+
+const links = computed(
+  () => navigation.value.find((item) => item._path === "/docs")?.children ?? []
+);
 </script>
 
 <template>
