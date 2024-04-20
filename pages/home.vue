@@ -4,6 +4,7 @@ import type { DropdownItem } from "#ui/types";
 
 definePageMeta({
   layout: "app",
+  bookAuth: false,
 });
 
 useSeoMeta({

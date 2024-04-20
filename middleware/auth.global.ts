@@ -48,4 +48,43 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       return abortNavigation();
     } else return;
   }
+
+  if (import.meta.client && !nuxtApp.payload.serverRendered) {
+    console.log(`non server rendered client user: ${authStore.activeUserId}`);
+
+    if (!authStore.activeUserId) {
+      return navigateTo({
+        path: redirect.login,
+        query: { redirect: to.path },
+      });
+    }
+
+    if (to.meta.bookAuth === false) return;
+    console.log(`non server rendered client book: ${authStore.activeBookId}`);
+    if (!authStore.activeBookId) {
+      return navigateTo(redirect.home);
+    }
+  }
+
+  //   if (
+  //     import.meta.client &&
+  //     nuxtApp.isHydrating &&
+  //     nuxtApp.payload.serverRendered
+  //   )
+  //     return;
+
+  //   if (!authStore.activeUserId) {
+  //     return navigateTo({
+  //       path: redirect.login,
+  //       query: { redirect: to.path },
+  //     });
+  //   }
+
+  //   if (to.meta.bookAuth === false) return;
+
+  //   if (!authStore.activeBookId) {
+  //     return navigateTo({
+  //       path: redirect.home,
+  //     });
+  //   }
 });

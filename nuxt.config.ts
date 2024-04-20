@@ -34,6 +34,7 @@ export default defineNuxtConfig({
   routeRules: {
     "/api/search.json": { prerender: true },
     "/docs": { redirect: "/docs/getting-started", prerender: false },
+    "/app/**": { ssr: false },
   },
   devtools: {
     enabled: true,
@@ -54,7 +55,7 @@ export default defineNuxtConfig({
         callback: "/access/auth/callback",
         passwordReset: "/access/auth/passwordReset",
         emailVerify: "/access/auth/emailVerify",
-        home: "/app",
+        home: "/home",
         app: "/app",
       },
     },
