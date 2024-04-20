@@ -1,3 +1,8 @@
 {
-    "workbench.colorTheme": "Colorful-Dark-Theme"
+    "workbench.colorTheme": "Colorful-Dark-Theme",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }
