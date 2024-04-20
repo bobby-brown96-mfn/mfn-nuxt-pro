@@ -1,0 +1,9 @@
+#import "~/api/fragments/dashboard.fragment.gql"
+
+query listDashboardBookUsers($bookId: String!) {
+  users(
+    where: { connectedBookUsers: { some: { bookId: { equals: $bookId } } } }
+  ) {
+    ...dashboardUserEntry
+  }
+}

@@ -15,27 +15,6 @@ const links = [
     },
   },
   {
-    id: "inbox",
-    label: "Inbox",
-    icon: "i-heroicons-inbox",
-    to: "/inbox",
-    badge: "4",
-    tooltip: {
-      text: "Inbox",
-      shortcuts: ["G", "I"],
-    },
-  },
-  {
-    id: "users",
-    label: "Users",
-    icon: "i-heroicons-user-group",
-    to: "/users",
-    tooltip: {
-      text: "Users",
-      shortcuts: ["G", "U"],
-    },
-  },
-  {
     id: "settings",
     label: "Settings",
     to: "/app/settings",
@@ -127,7 +106,7 @@ const colors = computed(() =>
     >
       <UDashboardNavbar class="!border-transparent" :ui="{ left: 'flex-1' }">
         <template #left>
-          <DashboardTeamsDropdown />
+          <LayoutBooksDropdown />
         </template>
       </UDashboardNavbar>
 
@@ -151,10 +130,10 @@ const colors = computed(() =>
 
         <UDivider class="sticky bottom-0" />
 
-        <template #footer>
-          <!-- ~/components/UserDropdown.vue -->
+        <!-- <template #footer>
+       
           <DashboardUserDropdown />
-        </template>
+        </template> -->
       </UDashboardSidebar>
     </UDashboardPanel>
 

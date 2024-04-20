@@ -16,13 +16,7 @@ const toast = useToast();
 const modal = useModal();
 
 const authStore = useAuthStore();
-const tokenDetails = ref();
-const refreshTokenDetails = ref();
 
-const setTokenDetails = () => {
-  tokenDetails.value = authStore.decodedAccessToken;
-  refreshTokenDetails.value = authStore.decodedRefreshToken;
-};
 const columns = [
   {
     key: "actions",

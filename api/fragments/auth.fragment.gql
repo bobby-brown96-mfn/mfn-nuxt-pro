@@ -21,6 +21,17 @@ fragment authUser on SignInResponse {
   updatedAt
 }
 
+fragment appConnectedUser on BookUser {
+  bookId
+  bookRole
+  isActive
+  book {
+    name
+    bookNumber
+    envType
+  }
+}
+
 fragment appUser on User {
   birthday
   canUseAnalyticsData
@@ -36,9 +47,7 @@ fragment appUser on User {
   updatedAt
   verified
   connectedBookUsers {
-    bookId
-    bookRole
-    isActive
+    ...appConnectedUser
   }
 }
 

@@ -1,0 +1,10 @@
+fragment dashboardUserEntry on User {
+  id
+  firstName
+  lastName
+  email
+  role
+  birthday
+  suspended
+  verified
+}

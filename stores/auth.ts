@@ -1,6 +1,12 @@
-import type { LoginInput, Role } from "#graphql-operations";
+import type {
+  AppBookFragment,
+  AppConnectedUserFragment,
+  AppUserFragment,
+  LoginInput,
+  Role,
+} from "#graphql-operations";
 import { jwtDecode } from "jwt-decode";
-import type { IDecodedToken, IFormattedToken } from "~/appTypes";
+import type { IDecodedToken } from "~/appTypes";
 
 interface IAuthState {
   accessToken: string | null;
@@ -8,6 +14,8 @@ interface IAuthState {
   activeBookId: string | null;
   activeUserId: string | null;
   activeUserRole: Role | null;
+  activeUser: AppUserFragment | null;
+  activeBook: AppBookFragment | null;
 }
 
 export const useAuthStore = defineStore("authStore", {
@@ -17,6 +25,8 @@ export const useAuthStore = defineStore("authStore", {
     activeBookId: null,
     activeUserId: null,
     activeUserRole: null,
+    activeUser: null,
+    activeBook: null,
   }),
   getters: {
     decodedAccessToken(store) {
@@ -36,24 +46,35 @@ export const useAuthStore = defineStore("authStore", {
       if (!decoded) return true;
       else return new Date(decoded.exp * 1000) < new Date();
     },
-    tokenDetails(store): IFormattedToken | null {
-      if (!store.accessToken) return null;
-      const decoded = jwtDecode(store.accessToken) as IDecodedToken;
-      if (!decoded) return null;
+    userFullName(store): string {
+      if (!store.activeUser) return "_NONE_";
       else {
-        const { exp, sub, email, role, tokenId } = decoded;
-
-        const isExpired = new Date(exp * 1000) < new Date();
-        return {
-          email,
-          role,
-          isExpired,
-          tokenId,
-          userId: sub,
-          expiresAt: new Date(exp * 1000).toLocaleTimeString(),
-        };
+        return `${store.activeUser.firstName} ${store.activeUser.lastName}`;
       }
     },
+    userBookOptions(store): AppConnectedUserFragment[] {
+      if (store.activeUser) {
+        return store.activeUser.connectedBookUsers ?? [];
+      } else return [];
+    },
+    // tokenDetails(store): IFormattedToken | null {
+    //   if (!store.accessToken) return null;
+    //   const decoded = jwtDecode(store.accessToken) as IDecodedToken;
+    //   if (!decoded) return null;
+    //   else {
+    //     const { exp, sub, email, role, tokenId } = decoded;
+
+    //     const isExpired = new Date(exp * 1000) < new Date();
+    //     return {
+    //       email,
+    //       role,
+    //       isExpired,
+    //       tokenId,
+    //       userId: sub,
+    //       expiresAt: new Date(exp * 1000).toLocaleTimeString(),
+    //     };
+    //   }
+    // },
   },
   actions: {
     async login(input: LoginInput) {
@@ -109,10 +130,12 @@ export const useAuthStore = defineStore("authStore", {
         // });
 
         if (refreshTokenResult.data.refreshSession) {
-          const { access_token, refresh_token } =
+          const { access_token, refresh_token, activeUser, activeBook } =
             refreshTokenResult.data.refreshSession;
           this.accessToken = access_token;
           this.refreshToken = refresh_token;
+          this.activeUser = activeUser;
+          this.activeBook = activeBook ?? null;
 
           const { access, refresh } = decodeTokens({
             access_token,
@@ -139,14 +162,19 @@ export const useAuthStore = defineStore("authStore", {
     },
     async setActiveBook(bookId: string) {
       try {
+        const runtimeConfig = useRuntimeConfig().public;
         const { data, errors } = await useGraphqlMutation("setCurrentBook", {
           bookId,
         });
 
         if (data.setActiveBook) {
-          const { access_token, refresh_token } = data.setActiveBook;
+          const { access_token, refresh_token, activeUser, activeBook } =
+            data.setActiveBook;
           this.accessToken = access_token;
           this.refreshToken = refresh_token;
+
+          this.activeUser = activeUser;
+          this.activeBook = activeBook ?? null;
 
           const { access, refresh } = decodeTokens({
             access_token,
@@ -161,6 +189,8 @@ export const useAuthStore = defineStore("authStore", {
           if (refresh) {
             this.activeBookId = refresh.activeBookId;
           }
+
+          await navigateTo(runtimeConfig.redirect.app);
         } else throw errors;
       } catch (e) {
         console.log("setActiveBook error : ", JSON.stringify(e, null, 2));
@@ -171,12 +201,17 @@ export const useAuthStore = defineStore("authStore", {
     },
     async clearActiveBook() {
       try {
+        const runtimeConfig = useRuntimeConfig().public;
         const { data, errors } = await useGraphqlMutation("clearCurrentBook");
 
         if (data.clearActiveBook) {
-          const { access_token, refresh_token } = data.clearActiveBook;
+          const { access_token, refresh_token, activeUser, activeBook } =
+            data.clearActiveBook;
           this.accessToken = access_token;
           this.refreshToken = refresh_token;
+
+          this.activeUser = activeUser;
+          this.activeBook = activeBook ?? null;
 
           const { access, refresh } = decodeTokens({
             access_token,
@@ -191,6 +226,7 @@ export const useAuthStore = defineStore("authStore", {
           if (refresh) {
             this.activeBookId = refresh.activeBookId;
           }
+          await navigateTo(runtimeConfig.redirect.home);
         } else throw errors;
       } catch (e) {
         console.log("clearActiveBook error : ", JSON.stringify(e, null, 2));
