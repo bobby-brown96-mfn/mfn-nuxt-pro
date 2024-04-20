@@ -8,6 +8,7 @@ import type {
   IFormattedToken,
 } from "~/appTypes";
 
+export * from "./data-types";
 export const accessDecode = (tok: string): IFormattedToken | null => {
   try {
     const decoded = jwtDecode(tok) as IDecodedToken;

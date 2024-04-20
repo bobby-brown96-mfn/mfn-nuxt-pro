@@ -57,6 +57,14 @@ export const useAuthStore = defineStore("authStore", {
         return store.activeUser.connectedBookUsers ?? [];
       } else return [];
     },
+    // authSecondsRemaining(store):number {
+    //   if (!store.accessToken) return -1
+    //   else {
+    //     const decoded = jwtDecode(store.accessToken) as IDecodedToken;
+
+    //     return
+    //   }
+    // }
     // tokenDetails(store): IFormattedToken | null {
     //   if (!store.accessToken) return null;
     //   const decoded = jwtDecode(store.accessToken) as IDecodedToken;

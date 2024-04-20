@@ -38,7 +38,7 @@ const clickRefresh = async () => {
           <div>
             <UButton color="red" @click="clickRefresh">Refresh</UButton>
           </div>
-          <div>{{ authStore.accessToken }}</div>
+          <div>{{ authStore.decodedAccessToken }}</div>
         </template>
       </UDashboardToolbar>
     </UDashboardPanel>
