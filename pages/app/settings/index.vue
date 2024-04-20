@@ -4,10 +4,11 @@ import type { FormError, FormSubmitEvent } from "#ui/types";
 const fileRef = ref<HTMLInputElement>();
 const isDeleteAccountModalOpen = ref(false);
 
+const authStore = useAuthStore();
+
 const state = reactive({
-  name: "Benjamin Canac",
-  email: "ben@nuxtlabs.com",
-  username: "benjamincanac",
+  name: authStore.userFullName,
+  email: authStore.activeUser?.email ?? "",
   avatar: "",
   bio: "",
   password_current: "",
@@ -115,7 +116,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
           />
         </UFormGroup>
 
-        <UFormGroup
+        <!-- <UFormGroup
           name="username"
           label="Username"
           description="Your unique username for logging in and your profile URL."
@@ -136,7 +137,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
               >
             </template>
           </UInput>
-        </UFormGroup>
+        </UFormGroup> -->
 
         <UFormGroup
           name="avatar"
@@ -184,7 +185,6 @@ async function onSubmit(event: FormSubmitEvent<any>) {
             id="password"
             v-model="state.password_current"
             type="password"
-            placeholder="Current password"
             size="md"
           />
           <UInput

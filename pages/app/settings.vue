@@ -38,7 +38,11 @@ const links = [
 <template>
   <UDashboardPage>
     <UDashboardPanel grow>
-      <UDashboardNavbar title="Settings" />
+      <UDashboardNavbar title="Settings">
+        <template #right>
+          <LayoutAuthDropdown />
+        </template>
+      </UDashboardNavbar>
 
       <UDashboardToolbar class="py-0 px-1.5 overflow-x-auto">
         <UHorizontalNavigation :links="links" />
