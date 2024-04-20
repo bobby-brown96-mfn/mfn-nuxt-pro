@@ -29,10 +29,6 @@ const links = [
         label: "Members",
         to: "/app/settings/members",
       },
-      {
-        label: "Notifications",
-        to: "/app/settings/notifications",
-      },
     ],
     tooltip: {
       text: "Settings",
