@@ -1,0 +1,19 @@
+#import "~/api/fragments/book.fragment.gql"
+
+mutation newProductionBook($input: NewProductionBookInput!) {
+  newProductionBook(input: $input) {
+    ...baseBookData
+  }
+}
+
+mutation seedProductionBook($id: String!) {
+  seedProductionBook(id: $id) {
+    ...homeBookEntry
+  }
+}
+
+query getBookBase($input: BookFindInput!) {
+  book(input: $input) {
+    ...baseBookData
+  }
+}

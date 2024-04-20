@@ -1,3 +1,9 @@
+fragment baseConnectedUser on BookUser {
+  userId
+  bookRole
+  bookId
+}
+
 fragment homeBookEntry on Book {
   bookNumber
   createdAt
@@ -19,7 +25,23 @@ fragment homeBookEntry on Book {
     activeCurrencies
   }
   connectedBookUsers {
-    userId
-    bookId
+    ...baseConnectedUser
+  }
+}
+
+fragment baseBookData on Book {
+  bookNumber
+  createdAt
+  envType
+  id
+  isActive
+  isSeeded
+  name
+  primaryCurrencyCode
+  system
+  systemUserId
+  updatedAt
+  connectedBookUsers {
+    ...baseConnectedUser
   }
 }
