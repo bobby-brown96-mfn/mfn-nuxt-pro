@@ -4,17 +4,29 @@ import type { IDecodedToken, IFormattedToken } from "~/appTypes";
 
 interface IAuthState {
   accessToken: string | null;
+  refreshToken: string | null;
+  activeBookId: string | null;
+  activeUserId: string | null;
 }
 
 export const useAuthStore = defineStore("authStore", {
   state: (): IAuthState => ({
     accessToken: null,
+    refreshToken: null,
+    activeBookId: null,
+    activeUserId: null,
   }),
   getters: {
     decodedAccessToken(store) {
       if (!store.accessToken) return null;
       else {
         return jwtDecode(store.accessToken) as IDecodedToken;
+      }
+    },
+    decodedRefreshToken(store) {
+      if (!store.refreshToken) return null;
+      else {
+        return jwtDecode(store.refreshToken);
       }
     },
     tokenIsExpired(): boolean {
@@ -54,9 +66,10 @@ export const useAuthStore = defineStore("authStore", {
 
         const { signin } = data;
 
-        const { access_token, ...user } = signin;
+        const { access_token, refresh_token } = signin;
 
         this.accessToken = access_token;
+        this.refreshToken = refresh_token;
 
         await navigateTo(returnToPath || runtimeConfig.redirect.home);
       } catch (e) {
@@ -64,6 +77,7 @@ export const useAuthStore = defineStore("authStore", {
         console.log("login error s: ", e);
 
         this.accessToken = null;
+        this.refreshToken = null;
       }
     },
     async refreshAccess() {
@@ -75,14 +89,49 @@ export const useAuthStore = defineStore("authStore", {
         // });
 
         if (refreshTokenResult.data.refreshSession) {
-          this.accessToken =
-            refreshTokenResult.data.refreshSession.access_token;
+          const { access_token, refresh_token } =
+            refreshTokenResult.data.refreshSession;
+          this.accessToken = access_token;
+          this.refreshToken = refresh_token;
         }
       } catch (e) {
         console.log("refresh error : ", JSON.stringify(e, null, 2));
         console.log("refresh error s: ", e);
 
         this.accessToken = null;
+        this.refreshToken = null;
+      }
+    },
+    async setActiveBook(bookId: string) {
+      try {
+        const { data, errors } = await useGraphqlMutation("setCurrentBook", {
+          bookId,
+        });
+
+        if (data.setActiveBook) {
+          this.accessToken = data.setActiveBook.access_token;
+          this.refreshToken = data.setActiveBook.refresh_token;
+        } else throw errors;
+      } catch (e) {
+        console.log("setActiveBook error : ", JSON.stringify(e, null, 2));
+        console.log("setActiveBook error s: ", e);
+
+        return e;
+      }
+    },
+    async clearActiveBook() {
+      try {
+        const { data, errors } = await useGraphqlMutation("clearCurrentBook");
+
+        if (data.clearActiveBook) {
+          this.accessToken = data.clearActiveBook.access_token;
+          this.refreshToken = data.clearActiveBook.refresh_token;
+        } else throw errors;
+      } catch (e) {
+        console.log("clearActiveBook error : ", JSON.stringify(e, null, 2));
+        console.log("clearActiveBook error s: ", e);
+
+        return e;
       }
     },
     async getAccessToken() {
@@ -106,6 +155,7 @@ export const useAuthStore = defineStore("authStore", {
       console.log(`logout res is ${logoutResult}`);
 
       this.accessToken = null;
+      this.refreshToken = null;
       clearNuxtData();
       await navigateTo(runtimeConfig.redirect.logout);
     },

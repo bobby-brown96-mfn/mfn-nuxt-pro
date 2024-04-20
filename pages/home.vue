@@ -12,9 +12,11 @@ useSeoMeta({
 
 const authStore = useAuthStore();
 const tokenDetails = ref();
+const refreshTokenDetails = ref();
 
 const setTokenDetails = () => {
   tokenDetails.value = authStore.decodedAccessToken;
+  refreshTokenDetails.value = authStore.decodedRefreshToken;
 };
 const columns = [
   {
@@ -63,6 +65,10 @@ const columns = [
   },
 ];
 
+const activateBook = async (bookId: string) => {
+  authStore.setActiveBook(bookId).then(async () => await fetchBooks());
+};
+
 const actions = (row: HomeBookEntryFragment): DropdownItem[][] => {
   const actionItems = [
     [
@@ -92,7 +98,7 @@ const actions = (row: HomeBookEntryFragment): DropdownItem[][] => {
       {
         label: "Set as Active",
         icon: "i-heroicons-arrow-right-circle-16-solid",
-        click: () => console.log("Set as Active", row.id),
+        click: async () => await activateBook(row.id),
       },
     ];
 
@@ -193,6 +199,8 @@ onMounted(async () => {
       <UButton @click="setTokenDetails()">Check User</UButton>
       <br />
       <pre>{{ tokenDetails }}</pre>
+      <br />
+      <pre>{{ refreshTokenDetails }}</pre>
     </template>
   </UCard>
 </template>

@@ -2,7 +2,7 @@
 
 mutation signin($input: LoginInput!) {
   signin(input: $input) {
-    access_token
+    ...authUserTokens
     ...authUser
   }
 }
