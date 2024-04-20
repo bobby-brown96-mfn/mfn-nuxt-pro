@@ -35,6 +35,7 @@ export default defineNuxtConfig({
     "/api/search.json": { prerender: true },
     "/docs": { redirect: "/docs/getting-started", prerender: false },
     "/app/**": { ssr: false },
+    "/home": { ssr: false },
   },
   devtools: {
     enabled: true,
