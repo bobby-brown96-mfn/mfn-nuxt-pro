@@ -4,6 +4,11 @@ fragment baseConnectedUser on BookUser {
   bookId
 }
 
+fragment connectedUserResult on BookUser {
+  ...baseConnectedUser
+  id
+}
+
 fragment homeBookEntry on Book {
   bookNumber
   createdAt

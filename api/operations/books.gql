@@ -17,3 +17,9 @@ query getBookBase($input: BookFindInput!) {
     ...baseBookData
   }
 }
+
+mutation createBookUser($input: NewBookUserInput!) {
+  createBookUser(input: $input) {
+    ...connectedUserResult
+  }
+}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { HomeBookEntryFragment } from "#graphql-operations";
+import { type HomeBookEntryFragment, Role } from "#graphql-operations";
 import type { DropdownItem } from "#ui/types";
 
 definePageMeta({
@@ -10,6 +10,7 @@ useSeoMeta({
   title: "Home",
 });
 
+const toast = useToast();
 const authStore = useAuthStore();
 const tokenDetails = ref();
 const refreshTokenDetails = ref();
@@ -69,42 +70,82 @@ const activateBook = async (bookId: string) => {
   authStore.setActiveBook(bookId).then(async () => await fetchBooks());
 };
 
-const actions = (row: HomeBookEntryFragment): DropdownItem[][] => {
-  const actionItems = [
-    [
-      {
-        label: "Edit",
-        icon: "i-heroicons-pencil-square-20-solid",
-        disabled: row.system,
-        click: () => console.log("Edit", row.id),
-      },
-      {
-        label: "Duplicate",
-        icon: "i-heroicons-document-duplicate-20-solid",
-      },
-    ],
-    [
-      {
-        label: "Delete",
-        icon: "i-heroicons-trash-20-solid",
-        disabled: row.system,
-        click: () => console.log("Delete", row.id),
-      },
-    ],
-  ];
+const clearActiveBook = async () => {
+  authStore.clearActiveBook().then(async () => await fetchBooks());
+};
 
-  if (row.isActive && row.isSeeded) {
-    const setActiveActions = [
-      {
-        label: "Set as Active",
-        icon: "i-heroicons-arrow-right-circle-16-solid",
-        click: async () => await activateBook(row.id),
+const addUserToBook = async (bookId: string) => {
+  if (authStore.activeUserId && authStore.activeUserRole) {
+    const { data, errors } = await useGraphqlMutation("createBookUser", {
+      input: {
+        bookId,
+        userId: authStore.activeUserId,
+        bookRole: authStore.activeUserRole,
       },
+    });
+  } else {
+    toast.add({
+      title: "Missing Active User or Role",
+      timeout: 3000,
+      color: "red",
+    });
+  }
+};
+
+const actions = (row: HomeBookEntryFragment): DropdownItem[][] => {
+  const bookUserIds = row.connectedBookUsers?.map((c) => c.userId) ?? [];
+  bookUserIds.push(row.systemUserId);
+
+  if (bookUserIds.includes(authStore.activeUserId ?? "")) {
+    const actionItems = [
+      [
+        {
+          label: "Edit",
+          icon: "i-heroicons-pencil-square-20-solid",
+          disabled: row.system,
+          click: () => console.log("Edit", row.id),
+        },
+        {
+          label: "Duplicate",
+          icon: "i-heroicons-document-duplicate-20-solid",
+        },
+      ],
+      [
+        {
+          label: "Delete",
+          icon: "i-heroicons-trash-20-solid",
+          disabled: row.system,
+          click: () => console.log("Delete", row.id),
+        },
+      ],
     ];
 
-    return [setActiveActions, ...actionItems];
+    if (row.isActive && row.isSeeded && !authStore.activeBookId) {
+      const setActiveActions = [
+        {
+          label: "Set as Active",
+          icon: "i-heroicons-arrow-right-circle-16-solid",
+          click: async () => await activateBook(row.id),
+        },
+      ];
+
+      return [setActiveActions, ...actionItems];
+    }
+    return actionItems;
+  } else {
+    return [
+      [
+        {
+          label: "Add Me to Book",
+          icon: "i-heroicons-plus-circle-16-solid",
+          click: async () => await addUserToBook(row.id),
+          disabled:
+            authStore.activeUserRole !== Role.ADMIN &&
+            authStore.activeUserRole !== Role.SYSTEM,
+        },
+      ],
+    ];
   }
-  return actionItems;
 };
 
 const isLoading = ref(false);
@@ -196,9 +237,13 @@ onMounted(async () => {
     </UTable>
 
     <template #footer>
+      <UButton v-if="authStore.activeBookId" @click="clearActiveBook()"
+        >Clear Active Book</UButton
+      >
+      <br />
       <UButton @click="setTokenDetails()">Check User</UButton>
       <br />
-      <pre>{{ tokenDetails }}</pre>
+      <pre>{{ authStore.$state }}</pre>
       <br />
       <pre>{{ refreshTokenDetails }}</pre>
     </template>

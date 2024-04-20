@@ -1,4 +1,4 @@
-import type { LoginInput } from "#graphql-operations";
+import type { LoginInput, Role } from "#graphql-operations";
 import { jwtDecode } from "jwt-decode";
 import type { IDecodedToken, IFormattedToken } from "~/appTypes";
 
@@ -7,6 +7,7 @@ interface IAuthState {
   refreshToken: string | null;
   activeBookId: string | null;
   activeUserId: string | null;
+  activeUserRole: Role | null;
 }
 
 export const useAuthStore = defineStore("authStore", {
@@ -15,6 +16,7 @@ export const useAuthStore = defineStore("authStore", {
     refreshToken: null,
     activeBookId: null,
     activeUserId: null,
+    activeUserRole: null,
   }),
   getters: {
     decodedAccessToken(store) {
@@ -39,13 +41,14 @@ export const useAuthStore = defineStore("authStore", {
       const decoded = jwtDecode(store.accessToken) as IDecodedToken;
       if (!decoded) return null;
       else {
-        const { exp, sub, email, role } = decoded;
+        const { exp, sub, email, role, tokenId } = decoded;
 
         const isExpired = new Date(exp * 1000) < new Date();
         return {
           email,
           role,
           isExpired,
+          tokenId,
           userId: sub,
           expiresAt: new Date(exp * 1000).toLocaleTimeString(),
         };
@@ -71,13 +74,30 @@ export const useAuthStore = defineStore("authStore", {
         this.accessToken = access_token;
         this.refreshToken = refresh_token;
 
+        const { access, refresh } = decodeTokens({
+          access_token,
+          refresh_token,
+        });
+
+        if (access) {
+          this.activeUserId = access.userId;
+          this.activeUserRole = access.role;
+        }
+
+        if (refresh) {
+          this.activeBookId = refresh.activeBookId;
+        }
+
         await navigateTo(returnToPath || runtimeConfig.redirect.home);
       } catch (e) {
         console.log("login error : ", JSON.stringify(e, null, 2));
         console.log("login error s: ", e);
 
-        this.accessToken = null;
-        this.refreshToken = null;
+        // this.accessToken = null;
+        // this.refreshToken = null;
+        // this.activeUserId=null
+        // this.activeBookId=null
+        this.$reset();
       }
     },
     async refreshAccess() {
@@ -93,13 +113,28 @@ export const useAuthStore = defineStore("authStore", {
             refreshTokenResult.data.refreshSession;
           this.accessToken = access_token;
           this.refreshToken = refresh_token;
+
+          const { access, refresh } = decodeTokens({
+            access_token,
+            refresh_token,
+          });
+
+          if (access) {
+            this.activeUserId = access.userId;
+            this.activeUserRole = access.role;
+          }
+
+          if (refresh) {
+            this.activeBookId = refresh.activeBookId;
+          }
         }
       } catch (e) {
         console.log("refresh error : ", JSON.stringify(e, null, 2));
         console.log("refresh error s: ", e);
 
-        this.accessToken = null;
-        this.refreshToken = null;
+        // this.accessToken = null;
+        // this.refreshToken = null;
+        this.$reset();
       }
     },
     async setActiveBook(bookId: string) {
@@ -109,8 +144,23 @@ export const useAuthStore = defineStore("authStore", {
         });
 
         if (data.setActiveBook) {
-          this.accessToken = data.setActiveBook.access_token;
-          this.refreshToken = data.setActiveBook.refresh_token;
+          const { access_token, refresh_token } = data.setActiveBook;
+          this.accessToken = access_token;
+          this.refreshToken = refresh_token;
+
+          const { access, refresh } = decodeTokens({
+            access_token,
+            refresh_token,
+          });
+
+          if (access) {
+            this.activeUserId = access.userId;
+            this.activeUserRole = access.role;
+          }
+
+          if (refresh) {
+            this.activeBookId = refresh.activeBookId;
+          }
         } else throw errors;
       } catch (e) {
         console.log("setActiveBook error : ", JSON.stringify(e, null, 2));
@@ -124,8 +174,23 @@ export const useAuthStore = defineStore("authStore", {
         const { data, errors } = await useGraphqlMutation("clearCurrentBook");
 
         if (data.clearActiveBook) {
-          this.accessToken = data.clearActiveBook.access_token;
-          this.refreshToken = data.clearActiveBook.refresh_token;
+          const { access_token, refresh_token } = data.clearActiveBook;
+          this.accessToken = access_token;
+          this.refreshToken = refresh_token;
+
+          const { access, refresh } = decodeTokens({
+            access_token,
+            refresh_token,
+          });
+
+          if (access) {
+            this.activeUserId = access.userId;
+            this.activeUserRole = access.role;
+          }
+
+          if (refresh) {
+            this.activeBookId = refresh.activeBookId;
+          }
         } else throw errors;
       } catch (e) {
         console.log("clearActiveBook error : ", JSON.stringify(e, null, 2));
@@ -145,7 +210,8 @@ export const useAuthStore = defineStore("authStore", {
       } catch (e) {
         console.log("getAccessToken error : ", JSON.stringify(e, null, 2));
         console.log("getAccessToken error s: ", e);
-        this.accessToken = null;
+        //   this.accessToken = null;
+        this.$reset();
         return null;
       }
     },
@@ -154,10 +220,11 @@ export const useAuthStore = defineStore("authStore", {
       const logoutResult = await useGraphqlMutation("logout");
       console.log(`logout res is ${logoutResult}`);
 
-      this.accessToken = null;
-      this.refreshToken = null;
+      // this.accessToken = null;
+      // this.refreshToken = null;
+      this.$reset();
       clearNuxtData();
-      await navigateTo(runtimeConfig.redirect.logout);
+      await navigateTo(runtimeConfig.redirect.login);
     },
   },
 });
