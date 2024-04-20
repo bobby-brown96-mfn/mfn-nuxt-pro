@@ -1,13 +1,49 @@
 <script setup lang="ts">
+import type { NavItem } from "@nuxt/content/dist/runtime/types";
+
 useHead({
   bodyAttrs: {
     class: "dark:bg-gray-950",
   },
 });
+
+const navigation = inject<Ref<NavItem[]>>("navigation", ref([]));
+
+const links = [
+  {
+    label: "Home",
+    to: "/",
+    icon: "i-heroicons-home",
+  },
+  {
+    label: "Admin",
+    to: "/",
+    icon: "i-heroicons-adjustments-vertical-16-solid",
+  },
+];
 </script>
 
 <template>
-  <div class="h-screen flex items-center justify-center overlay">
+  <div>
+    <UHeader>
+      <template #logo>
+        Nuxt UI Pro <UBadge label="SaaS" variant="subtle" class="w-auto h-6" />
+      </template>
+
+      <template #right>
+        <UColorModeButton />
+      </template>
+    </UHeader>
+    <UMain>
+      <div class="h-screen flex items-center justify-center overlay">
+        <div class="gradient" />
+
+        <slot />
+      </div>
+    </UMain>
+  </div>
+
+  <!-- <div class="h-screen flex items-center justify-center overlay">
     <div class="gradient" />
 
     <UButton
@@ -19,7 +55,7 @@ useHead({
     />
 
     <slot />
-  </div>
+  </div> -->
 </template>
 
 <style scoped>

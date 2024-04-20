@@ -237,9 +237,16 @@ onMounted(async () => {
     </UTable>
 
     <template #footer>
-      <UButton v-if="authStore.activeBookId" @click="clearActiveBook()"
-        >Clear Active Book</UButton
+      <UButtonGroup
+        v-if="authStore.activeBookId"
+        size="md"
+        orientation="horizontal"
+        class="flex items-center justify-center"
       >
+        <UButton @click="clearActiveBook()">Clear Active Book</UButton>
+        <UButton label="Go to Active Book" to="/app" color="black" />
+      </UButtonGroup>
+
       <br />
       <UButton @click="setTokenDetails()">Check User</UButton>
       <br />
