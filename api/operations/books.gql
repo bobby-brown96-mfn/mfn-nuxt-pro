@@ -23,3 +23,9 @@ mutation createBookUser($input: NewBookUserInput!) {
     ...connectedUserResult
   }
 }
+
+query searchBookEntities($where: BookEntityWhereInput!) {
+  searchBookEntities(where: $where) {
+    ...baseEntityData
+  }
+}

@@ -7,16 +7,22 @@ type AccountType {
   book: Book!
   bookId: String!
 
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
   glAccounts: [GlAccount!]
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   name: String!
   system: Boolean!
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
 }
 
@@ -287,7 +293,9 @@ type BaseBookResult {
   bookNumber: Int!
   envType: BookEnvironmentType!
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   isSeeded: Boolean!
   name: String!
@@ -302,12 +310,16 @@ type Book {
   bookNumber: Int!
   connectedBookUsers: [BookUser!]
 
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
   envType: BookEnvironmentType!
   glAccounts: [GlAccount!]
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   isActive: Boolean!
   isSeeded: Boolean!
@@ -322,7 +334,9 @@ type Book {
   transactionTypes: [TransactionType!]
   transactions: [Transaction!]
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
 }
 
@@ -723,7 +737,9 @@ type BookEntity {
   book: Book!
   bookId: String!
 
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
   createdBy: BookUser!
   createdById: String!
@@ -732,14 +748,18 @@ type BookEntity {
   entityId: Int!
   entityType: EntityType!
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   isActive: Boolean!
   name: String!
   system: Boolean!
   transactionLines: [TransactionLine!]
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
 }
 
@@ -902,6 +922,12 @@ input BookEntityEntityIdBookIdCompoundUniqueInput {
   entityId: Int!
 }
 
+input BookEntityFindInput {
+  entityId: Int
+  id: String
+  name: String
+}
+
 input BookEntityIdBookIdCompoundUniqueInput {
   bookId: String!
   id: String!
@@ -953,6 +979,38 @@ input BookEntityNullableRelationFilter {
 
 input BookEntityOrderByRelationAggregateInput {
   _count: SortOrder
+}
+
+input BookEntityOrderByWithRelationInput {
+  book: BookOrderByWithRelationInput
+  bookId: SortOrder
+  createdAt: SortOrder
+  createdBy: BookUserOrderByWithRelationInput
+  createdById: SortOrder
+  defaultAccount: GlAccountOrderByWithRelationInput
+  defaultAccountNumber: SortOrderInput
+  entityId: SortOrder
+  entityType: SortOrder
+  id: SortOrder
+  isActive: SortOrder
+  name: SortOrder
+  system: SortOrder
+  transactionLines: TransactionLineOrderByRelationAggregateInput
+  updatedAt: SortOrder
+}
+
+enum BookEntityScalarFieldEnum {
+  bookId
+  createdAt
+  createdById
+  defaultAccountNumber
+  entityId
+  entityType
+  id
+  isActive
+  name
+  system
+  updatedAt
 }
 
 input BookEntityScalarWhereInput {
@@ -1765,18 +1823,24 @@ type BookUser {
   bookId: String!
   bookRole: Role!
 
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
   createdBookEntities: [BookEntity!]
   createdGlAccounts: [GlAccount!]
   createdPeriods: [Period!]
   createdTransactions: [Transaction!]
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   isActive: Boolean!
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
   user: User!
   userId: String!
@@ -2334,7 +2398,9 @@ type ConnectBookResult {
   bookId: String!
   bookRole: Role!
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   userId: String!
 }
@@ -2344,19 +2410,27 @@ type Country {
   countryCurrencyCode: String
   countryPrimaryCurrency: Currency
 
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
 
-  """used by top level for killing countries"""
+  """
+  used by top level for killing countries
+  """
   isActive: Boolean!
   locale: String
   name: String!
   timezones: [String!]
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
 }
 
@@ -2606,20 +2680,28 @@ type Currency {
   code: String!
   countries: [Country!]
 
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
   currencyFraction: String!
   currencyFractionUnits: Int!
   currencySymbol: String!
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
 
-  """used by top level for killing currencies"""
+  """
+  used by top level for killing currencies
+  """
   isActive: Boolean!
   name: String!
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
 }
 
@@ -3023,6 +3105,14 @@ input EditAccountTypeInput {
   name: String
 }
 
+input EditBookEntityInput {
+  defaultAccountNumber: Int
+  entityId: Int
+  entityType: EntityType
+  isActive: Boolean = true
+  name: String
+}
+
 input EditBookInput {
   activeCurrencies: CurrencyUpdateManyWithoutActiveCurrencyBooksNestedInput
   isActive: Boolean
@@ -3126,7 +3216,9 @@ type GeneratedPeriodsResponse {
   createdById: String!
   existingCount: Int!
 
-  """Number of Successful Results"""
+  """
+  Number of Successful Results
+  """
   successCount: Int!
   throughYear: Int!
 }
@@ -3140,12 +3232,16 @@ type GlAccount {
   bookId: String!
   childAccounts: [GlAccount!]
 
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
   createdBy: BookUser!
   createdById: String!
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   isActive: Boolean!
   isExternal: Boolean!
@@ -3156,7 +3252,9 @@ type GlAccount {
   system: Boolean!
   transactionLines: [TransactionLine!]
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
 }
 
@@ -3494,6 +3592,29 @@ input GlAccountNullableRelationFilter {
 
 input GlAccountOrderByRelationAggregateInput {
   _count: SortOrder
+}
+
+input GlAccountOrderByWithRelationInput {
+  accountNumber: SortOrder
+  accountType: AccountTypeOrderByWithRelationInput
+  accountTypeId: SortOrder
+  book: BookOrderByWithRelationInput
+  bookEntityDefaults: BookEntityOrderByRelationAggregateInput
+  bookId: SortOrder
+  childAccounts: GlAccountOrderByRelationAggregateInput
+  createdAt: SortOrder
+  createdBy: BookUserOrderByWithRelationInput
+  createdById: SortOrder
+  id: SortOrder
+  isActive: SortOrder
+  isExternal: SortOrder
+  isSummary: SortOrder
+  name: SortOrder
+  parent: GlAccountOrderByWithRelationInput
+  parentNumber: SortOrderInput
+  system: SortOrder
+  transactionLines: TransactionLineOrderByRelationAggregateInput
+  updatedAt: SortOrder
 }
 
 input GlAccountRelationFilter {
@@ -3903,13 +4024,17 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 scalar JSON
 
 type JobQueueApi {
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
   dailyCheck: Boolean!
   defaultMaxAttempts: Int!
   hourlyCheck: Boolean!
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   instances: [JobQueueInstanceApi!]
   isBookQueue: Boolean!
@@ -3920,7 +4045,9 @@ type JobQueueApi {
   runAsUserId: String!
   system: Boolean!
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
 }
 
@@ -3930,18 +4057,24 @@ type JobQueueApiUser {
   connectedBookUsers: [BookUser!]
   countryCode: String!
 
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
   email: String!
   firstName: String!
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   lastName: String!
   phoneNumber: String
   role: Role!
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
   verified: Boolean!
 }
@@ -3949,14 +4082,18 @@ type JobQueueApiUser {
 type JobQueueInstanceApi {
   attempts: Int!
 
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
   createdByUserId: String!
   error: JSON
   failedAt: DateTime
   finishedAt: DateTime
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   maxAttempts: Int
   notBefore: DateTime
@@ -3969,7 +4106,9 @@ type JobQueueInstanceApi {
   runAt: DateTime!
   sourceId: String!
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
 }
 
@@ -3981,10 +4120,14 @@ input LoginInput {
 type LogoutResponse {
   email: String!
 
-  """UUID From Token"""
+  """
+  UUID From Token
+  """
   uid: String!
 
-  """User UUID Result"""
+  """
+  User UUID Result
+  """
   userId: ID!
 }
 
@@ -3992,6 +4135,7 @@ type Mutation {
   addBookNumberToUser(input: UserConnectBookNumberInput!): [ConnectBookResult!]!
   clearActiveBook: AuthSession!
   createAccountType(input: NewAccountTypeInput!): AccountType!
+  createBookEntity(input: NewBookEntityInput!): BookEntity!
   createBookUser(input: NewBookUserInput!): BookUser!
   createTransactionType(input: NewTransactionTypeInput!): TransactionType!
   generatePeriods(input: GeneratePeriodsInput!): GeneratedPeriodsResponse!
@@ -4000,6 +4144,7 @@ type Mutation {
   refreshSession: AuthSession!
   removeAccountType(input: AccountTypeFindInput!): AccountType!
   removeBook(input: BookFindInput!): Book!
+  removeBookEntity(input: BookEntityFindInput!): BookEntity!
   removeBookUser(input: BookUserFindInput!): BookUser!
   removeTransactionType(input: TransactionTypeFindInput!): TransactionType!
   seedProductionBook(id: String!): Book!
@@ -4007,10 +4152,20 @@ type Mutation {
   signin(input: LoginInput!): SignInResponse!
   signup(data: RegisterUserInput!): User!
   triggerSystemQueues: TriggerQueuesResponse!
-  updateAccountType(get: AccountTypeFindInput!, input: EditAccountTypeInput!): AccountType!
+  updateAccountType(
+    get: AccountTypeFindInput!
+    input: EditAccountTypeInput!
+  ): AccountType!
   updateBook(get: BookFindInput!, input: EditBookInput!): Book!
+  updateBookEntity(
+    get: BookEntityFindInput!
+    input: EditBookEntityInput!
+  ): BookEntity!
   updateBookUser(get: BookUserFindInput!, input: EditBookUserInput!): BookUser!
-  updateTransactionType(get: TransactionTypeFindInput!, input: EditTransactionTypeInput!): TransactionType!
+  updateTransactionType(
+    get: TransactionTypeFindInput!
+    input: EditTransactionTypeInput!
+  ): TransactionType!
 }
 
 input NestedBoolFilter {
@@ -4137,6 +4292,14 @@ input NewAccountTypeInput {
   name: String!
 }
 
+input NewBookEntityInput {
+  defaultAccountNumber: Int
+  entityId: Int
+  entityType: EntityType!
+  isActive: Boolean = true
+  name: String!
+}
+
 input NewBookUserInput {
   bookId: String!
   bookRole: Role!
@@ -4171,18 +4334,24 @@ type Period {
   book: Book!
   bookId: String!
 
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
   createdBy: BookUser!
   createdById: String!
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   locked: Boolean!
   month: Int!
   transactions: [Transaction!]
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
   year: Int!
 }
@@ -4526,24 +4695,82 @@ input PeriodWhereUniqueInput {
 type Query {
   activeBook: Book!
   book(input: BookFindInput!): Book
-  books(cursor: BookWhereUniqueInput, distinct: [BookScalarFieldEnum!], orderBy: [BookOrderByWithRelationInput!], skip: Int, take: Int, where: BookWhereInput): [Book!]!
+  books(
+    cursor: BookWhereUniqueInput
+    distinct: [BookScalarFieldEnum!]
+    orderBy: [BookOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: BookWhereInput
+  ): [Book!]!
   countries(input: CountryWhereInput!): [Country!]!
   country(input: CountryWhereUniqueInput!): Country
-  currencies(cursor: CurrencyWhereUniqueInput, distinct: [CurrencyScalarFieldEnum!], orderBy: [CurrencyOrderByWithRelationInput!], skip: Int, take: Int, where: CurrencyWhereInput): [Currency!]!
+  currencies(
+    cursor: CurrencyWhereUniqueInput
+    distinct: [CurrencyScalarFieldEnum!]
+    orderBy: [CurrencyOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: CurrencyWhereInput
+  ): [Currency!]!
   currency(input: CurrencyWhereUniqueInput!): Currency
   currentSession: AuthSessionStatus!
   getAccountType(input: AccountTypeFindInput!): AccountType
+  getBookEntity(input: BookEntityFindInput!): BookEntity
   getBookUser(input: BookUserFindInput!): BookUser
   getJobQueue(input: FindJobQueueInput!): JobQueueApi
   getPeriod(input: PeriodFindInput!): Period
   getTransactionType(input: TransactionTypeFindInput!): TransactionType
   me: User!
-  searchAccountTypes(cursor: AccountTypeWhereUniqueInput, distinct: [AccountTypeScalarFieldEnum!], orderBy: [AccountTypeOrderByWithRelationInput!], skip: Int, take: Int, where: AccountTypeWhereInput): [AccountType!]!
-  searchBookUsers(cursor: BookUserWhereUniqueInput, distinct: [BookUserScalarFieldEnum!], orderBy: [BookUserOrderByWithRelationInput!], skip: Int, take: Int, where: BookUserWhereInput): [BookUser!]!
-  searchPeriods(cursor: PeriodWhereUniqueInput, distinct: [PeriodScalarFieldEnum!], orderBy: [PeriodOrderByWithRelationInput!], skip: Int, take: Int, where: PeriodWhereInput): [Period!]!
-  searchTransactionTypes(cursor: TransactionTypeWhereUniqueInput, distinct: [TransactionTypeScalarFieldEnum!], orderBy: [TransactionTypeOrderByWithRelationInput!], skip: Int, take: Int, where: TransactionTypeWhereInput): [TransactionType!]!
+  searchAccountTypes(
+    cursor: AccountTypeWhereUniqueInput
+    distinct: [AccountTypeScalarFieldEnum!]
+    orderBy: [AccountTypeOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: AccountTypeWhereInput
+  ): [AccountType!]!
+  searchBookEntities(
+    cursor: BookEntityWhereUniqueInput
+    distinct: [BookEntityScalarFieldEnum!]
+    orderBy: [BookEntityOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: BookEntityWhereInput
+  ): [BookEntity!]!
+  searchBookUsers(
+    cursor: BookUserWhereUniqueInput
+    distinct: [BookUserScalarFieldEnum!]
+    orderBy: [BookUserOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: BookUserWhereInput
+  ): [BookUser!]!
+  searchPeriods(
+    cursor: PeriodWhereUniqueInput
+    distinct: [PeriodScalarFieldEnum!]
+    orderBy: [PeriodOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: PeriodWhereInput
+  ): [Period!]!
+  searchTransactionTypes(
+    cursor: TransactionTypeWhereUniqueInput
+    distinct: [TransactionTypeScalarFieldEnum!]
+    orderBy: [TransactionTypeOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: TransactionTypeWhereInput
+  ): [TransactionType!]!
   user(input: UserWhereUniqueInput!): User
-  users(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
+  users(
+    cursor: UserWhereUniqueInput
+    distinct: [UserScalarFieldEnum!]
+    orderBy: [UserOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: UserWhereInput
+  ): [User!]!
 }
 
 enum QueryMode {
@@ -4577,18 +4804,24 @@ type SignInResponse {
   canUseAnalyticsData: Boolean!
   countryCode: String!
 
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
   email: String!
   firstName: String!
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   lastName: String!
   refresh_token: String!
   role: Role!
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
 }
 
@@ -5601,11 +5834,15 @@ type TransactionType {
   book: Book!
   bookId: String!
 
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
   entryClass: EntryClass!
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   name: String!
   normalBalanceClass: NormalBalanceGlClass!
@@ -5613,7 +5850,9 @@ type TransactionType {
   transactions: [Transaction!]
   uiHidden: Boolean!
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
 }
 
@@ -6318,7 +6557,9 @@ input TransactionWhereUniqueInput {
 type TriggerQueuesResponse {
   queueKeys: [String!]!
 
-  """Number of Successful Results"""
+  """
+  Number of Successful Results
+  """
   successCount: Int!
 }
 
@@ -6328,12 +6569,16 @@ type User {
   connectedBookUsers: [BookUser!]
   countryCode: String!
 
-  """Identifies the date and time when the object was created."""
+  """
+  Identifies the date and time when the object was created.
+  """
   createdAt: DateTime!
   email: String!
   firstName: String!
 
-  """Generated Instance CUID"""
+  """
+  Generated Instance CUID
+  """
   id: ID!
   lastName: String!
   phoneNumber: String
@@ -6341,7 +6586,9 @@ type User {
   suspended: Boolean!
   systemUserBooks: [Book!]
 
-  """Identifies the date and time when the object was last updated."""
+  """
+  Identifies the date and time when the object was last updated.
+  """
   updatedAt: DateTime!
   userCountry: Country!
   verified: Boolean!

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { tooltip } from "@unovis/ts/components/tooltip/style";
+
 const route = useRoute();
 const appConfig = useAppConfig();
 const { isHelpSlideoverOpen } = useDashboard();
@@ -6,12 +8,22 @@ const { isHelpSlideoverOpen } = useDashboard();
 const links = [
   {
     id: "home",
-    label: "Home",
+    label: "Dashboard",
     icon: "i-heroicons-home",
     to: "/app",
     tooltip: {
       text: "Home",
       shortcuts: ["G", "H"],
+    },
+  },
+  {
+    id: "entities",
+    label: "Entities",
+    icon: "i-heroicons-queue-list-16-solid",
+    to: "/app/entities",
+    tooltip: {
+      text: "Entities",
+      shortcuts: ["G", "E"],
     },
   },
   {
@@ -136,5 +148,9 @@ const colors = computed(() =>
     <slot />
 
     <DashboardHelpSlideover />
+
+    <ClientOnly>
+      <LazyUDashboardSearch :groups="groups" />
+    </ClientOnly>
   </UDashboardLayout>
 </template>

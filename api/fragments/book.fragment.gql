@@ -50,3 +50,15 @@ fragment baseBookData on Book {
     ...baseConnectedUser
   }
 }
+
+fragment baseEntityData on BookEntity {
+  id
+  createdAt
+  updatedAt
+  defaultAccountNumber
+  entityId
+  entityType
+  isActive
+  name
+  system
+}

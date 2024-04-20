@@ -7,6 +7,7 @@ const _useDashboard = () => {
 
   defineShortcuts({
     "g-h": () => router.push("/app"),
+    "g-e": () => router.push("/app/entities"),
     "g-s": () => router.push("/app/settings"),
     "?": () => (isHelpSlideoverOpen.value = true),
   });
