@@ -65,6 +65,9 @@ dependencies:
   v-calendar:
     specifier: ^2.4.2
     version: 2.4.2(@popperjs/core@2.11.8)(vue@3.4.21)
+  zod:
+    specifier: ^3.22.5
+    version: 3.22.5
 
 devDependencies:
   '@graphql-codegen/cli':
@@ -14606,6 +14609,10 @@ packages:
       archiver-utils: 5.0.2
       compress-commons: 6.0.2
       readable-stream: 4.5.2
+    dev: false
+
+  /zod@3.22.5:
+    resolution: {integrity: sha512-HqnGsCdVZ2xc0qWPLdO25WnseXThh0kEYKIdV5F/hTHO75hNZFp8thxSeHhiPrHZKrFTo1SOgkAj9po5bexZlw==}
     dev: false
 
   /zwitch@2.0.4:

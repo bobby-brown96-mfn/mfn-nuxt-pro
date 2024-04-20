@@ -1,16 +1,20 @@
 <script setup lang="ts">
+import { FormBook } from "#components";
 import { type HomeBookEntryFragment, Role } from "#graphql-operations";
 import type { DropdownItem } from "#ui/types";
 
 definePageMeta({
   layout: "app",
+  bookAuth: false,
 });
 
 useSeoMeta({
-  title: "Home",
+  title: "Books Home",
 });
 
 const toast = useToast();
+const modal = useModal();
+
 const authStore = useAuthStore();
 const tokenDetails = ref();
 const refreshTokenDetails = ref();
@@ -83,6 +87,7 @@ const addUserToBook = async (bookId: string) => {
         bookRole: authStore.activeUserRole,
       },
     });
+    await fetchBooks();
   } else {
     toast.add({
       title: "Missing Active User or Role",
@@ -154,7 +159,7 @@ const booksData = ref<HomeBookEntryFragment[]>([]);
 
 const fetchBooks = async () => {
   isLoading.value = true;
-  await useAuthStore().refreshAccess();
+  //  await useAuthStore().refreshAccess();
   const { data } = await useGraphqlQuery("homeBooksList", {
     where: {
       isActive: { equals: true },
@@ -165,6 +170,18 @@ const fetchBooks = async () => {
   isLoading.value = false;
 };
 
+////////////////////////////// Modal
+const openModal = () => {
+  modal.open(FormBook, {
+    baseUserId: authStore.activeUserId ?? "",
+  });
+};
+
+////////////////////////////// Setup
+
+onBeforeMount(() => {
+  isLoading.value = true;
+});
 onMounted(async () => {
   fetchBooks();
 });
@@ -175,11 +192,14 @@ onMounted(async () => {
     class="max-w-screen-lg w-full bg-white/75 dark:bg-white/5 backdrop-blur"
   >
     <template #header>
-      <h1
-        class="font-semibold text-xl text-gray-900 dark:text-white leading-tight"
-      >
-        Manage Books
-      </h1>
+      <div class="flex justify-content-between flex-column sm:flex-row">
+        <h1
+          class="font-semibold text-xl text-gray-900 dark:text-white leading-tight"
+        >
+          Manage Books
+        </h1>
+        <UButton label="New Book" class="items-right" @click="openModal" />
+      </div>
     </template>
 
     <!-- <Placeholder class="h-32" /> -->
@@ -247,12 +267,12 @@ onMounted(async () => {
         <UButton label="Go to Active Book" to="/app" color="black" />
       </UButtonGroup>
 
-      <br />
+      <!-- <br />
       <UButton @click="setTokenDetails()">Check User</UButton>
       <br />
       <pre>{{ authStore.$state }}</pre>
       <br />
-      <pre>{{ refreshTokenDetails }}</pre>
+      <pre>{{ refreshTokenDetails }}</pre> -->
     </template>
   </UCard>
 </template>
