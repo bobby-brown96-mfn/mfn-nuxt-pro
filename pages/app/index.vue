@@ -2,6 +2,10 @@
 import { sub } from "date-fns";
 import type { Period, Range } from "~/appTypes";
 
+useSeoMeta({
+  title: "App",
+});
+
 const authStore = useAuthStore();
 
 const { isNotificationsSlideoverOpen } = useDashboard();

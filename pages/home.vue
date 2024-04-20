@@ -8,7 +8,7 @@ definePageMeta({
 });
 
 useSeoMeta({
-  title: "Home",
+  title: "Books Home",
 });
 
 const toast = useToast();

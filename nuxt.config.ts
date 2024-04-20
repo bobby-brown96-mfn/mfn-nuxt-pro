@@ -42,6 +42,7 @@ export default defineNuxtConfig({
   future: {
     typescriptBundlerResolution: false,
   },
+  spaLoadingTemplate: true,
   runtimeConfig: {
     public: {
       mfnGqlApi: {
