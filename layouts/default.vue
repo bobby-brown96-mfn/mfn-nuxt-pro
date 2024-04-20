@@ -147,6 +147,11 @@ const colors = computed(() =>
 
     <slot />
 
+    <UDashboardNavbar>
+      <template #right>
+        <LayoutAuthDropdown />
+      </template>
+    </UDashboardNavbar>
     <DashboardHelpSlideover />
 
     <ClientOnly>
