@@ -1,3 +1,4 @@
+
 name: studio-nuxt-build
 run-name: studio nuxt build
 
@@ -5,7 +6,7 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches:
-      - "main"
+      - 'main'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -69,7 +70,7 @@ jobs:
         run: npx nuxi build --preset github_pages
         env:
           NUXT_PUBLIC_STUDIO_API_URL: https://api.nuxt.studio
-          NUXT_PUBLIC_STUDIO_TOKENS: d0ea6f2712544bb98c9596394fa140d3805d23d18aebe2ff648a548c003e3449
+          NUXT_PUBLIC_STUDIO_TOKENS: c690edefefd35629669a3c02eddd2fe78bc560591b84c10aa3f38c8b71c70335
           NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
 
       # Deployment job
