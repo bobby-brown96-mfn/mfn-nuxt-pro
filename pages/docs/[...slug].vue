@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "landing",
+  auth: false,
 });
 
 import { withoutTrailingSlash } from "ufo";

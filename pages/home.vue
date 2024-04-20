@@ -154,7 +154,7 @@ const booksData = ref<HomeBookEntryFragment[]>([]);
 
 const fetchBooks = async () => {
   isLoading.value = true;
-  await useAuthStore().refreshAccess();
+  //  await useAuthStore().refreshAccess();
   const { data } = await useGraphqlQuery("homeBooksList", {
     where: {
       isActive: { equals: true },
@@ -247,12 +247,12 @@ onMounted(async () => {
         <UButton label="Go to Active Book" to="/app" color="black" />
       </UButtonGroup>
 
-      <br />
+      <!-- <br />
       <UButton @click="setTokenDetails()">Check User</UButton>
       <br />
       <pre>{{ authStore.$state }}</pre>
       <br />
-      <pre>{{ refreshTokenDetails }}</pre>
+      <pre>{{ refreshTokenDetails }}</pre> -->
     </template>
   </UCard>
 </template>
