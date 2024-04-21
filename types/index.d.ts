@@ -20,21 +20,31 @@ export type BookMember = DashboardUserEntryFragment & {
 
 export type TColumnType = "string" | "number" | "currency" | "boolean" | "date";
 
+export interface IUSelectColumnConfig {
+  fixedColumn: boolean;
+  selectable: boolean;
+  defaultSelected: boolean;
+}
+
 export interface IBaseColumnDef {
   label: string;
   key: string;
-  sortable: boolean;
 }
 
-export interface IColumnDef
-  extends Omit<IBaseColumnDef, "sortable">,
-    Partial<Pick<IBaseColumnDef, "sortable">> {
+export interface IUColumnOptions {
+  sortable: boolean;
   type: TColumnType;
 }
 
-export interface IUTableColumn extends IBaseColumnDef {
-  class?: string;
-}
+export interface IColumnDef
+  extends IBaseColumnDef,
+    Partial<IUColumnOptions>,
+    Partial<IUSelectColumnConfig> {}
+
+export interface IUTableColumn
+  extends IBaseColumnDef,
+    IUColumnOptions,
+    IUSelectColumnConfig {}
 
 export type TPrimeSelectConfig = "multiselect" | "dropdown";
 
