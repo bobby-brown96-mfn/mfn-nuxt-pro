@@ -146,6 +146,12 @@ const useUTable = <T extends { id: string }>({
       }
     }
   });
+
+  const initFilters = () => {
+    processing.value = true;
+    searchQ.value = "";
+    processing.value = false;
+  };
   onMounted(() => {
     processing.value = true;
     setDefaultSelected();
@@ -162,6 +168,7 @@ const useUTable = <T extends { id: string }>({
     searchQ,
     allData,
     rows,
+    initFilters,
   };
 };
 

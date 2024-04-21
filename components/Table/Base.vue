@@ -22,6 +22,7 @@ const {
   allData,
   rows,
   searchQ,
+  initFilters,
 } = useUTable<T>({
   selectableColumns: props.selectableColumns,
 });
@@ -43,6 +44,13 @@ const loading = computed(() => {
         :disabled="disableResetColumns"
       />
       <UInput v-model="searchQ" placeholder="Search..." />
+    </div>
+    <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
+      <UPopover overlay>
+        <UButton color="white" label="Filter" />
+        <template #panel> <div class="p-4">test</div> </template></UPopover
+      >
+      <UButton label="Clear Filters" @click="initFilters" />
     </div>
     <UTable :rows="rows" :loading="loading" :columns="selectedColumns">
       <template v-for="c of selectedColumns" v-slot:[`${c.key}-data`]="{ row }">
