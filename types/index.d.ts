@@ -17,3 +17,21 @@ export interface BlogPost extends ParsedContent {
 export type BookMember = DashboardUserEntryFragment & {
   fullName: string;
 };
+
+export type TColumnType = "string" | "number" | "currency" | "boolean" | "date";
+
+export interface IBaseColumnDef {
+  label: string;
+  key: string;
+  sortable: boolean;
+}
+
+export interface IColumnDef
+  extends Omit<IBaseColumnDef, "sortable">,
+    Partial<Pick<IBaseColumnDef, "sortable">> {
+  type: TColumnType;
+}
+
+export interface IUTableColumn extends IBaseColumnDef {
+  class?: string;
+}

@@ -1,4 +1,10 @@
 <script setup lang="ts">
+interface Props {
+  position: "bottom" | "top";
+}
+const props = withDefaults(defineProps<Props>(), {
+  position: "top",
+});
 const { isHelpSlideoverOpen } = useDashboard();
 const { isDashboardSearchModalOpen } = useUIState();
 const { metaSymbol } = useShortcuts();
@@ -17,6 +23,14 @@ const items = computed(() => [
       label: "Settings",
       icon: "i-heroicons-cog-8-tooth",
       to: "/app/settings",
+    },
+    {
+      label: "Command menu",
+      icon: "i-heroicons-command-line",
+      shortcuts: [metaSymbol.value, "K"],
+      click: () => {
+        isDashboardSearchModalOpen.value = true;
+      },
     },
     {
       label: "Help & Support",
@@ -39,7 +53,7 @@ const items = computed(() => [
     mode="hover"
     :items="items"
     :ui="{ width: 'w-full', item: { disabled: 'cursor-text select-text' } }"
-    :popper="{ strategy: 'absolute', placement: 'bottom' }"
+    :popper="{ strategy: 'absolute', placement: 'top' }"
     class="w-full"
   >
     <template #default="{ open }">

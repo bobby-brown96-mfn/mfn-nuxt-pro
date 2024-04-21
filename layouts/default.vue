@@ -138,20 +138,14 @@ const colors = computed(() =>
 
         <UDivider class="sticky bottom-0" />
 
-        <!-- <template #footer>
-       
-          <DashboardUserDropdown />
-        </template> -->
+        <template #footer>
+          <LayoutAuthDropdown position="top" />
+        </template>
       </UDashboardSidebar>
     </UDashboardPanel>
 
     <slot />
 
-    <UDashboardNavbar>
-      <template #right>
-        <LayoutAuthDropdown />
-      </template>
-    </UDashboardNavbar>
     <DashboardHelpSlideover />
 
     <ClientOnly>
