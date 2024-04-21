@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { UTable } from "#components";
-import type { ListCountryFragment } from "#build/graphql-operations";
-
-const { loading } = useUTable();
+import type { ListCountryFragment } from "#graphql-operations";
 
 const defaultColumns = [
   {

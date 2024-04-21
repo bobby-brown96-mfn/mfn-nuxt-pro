@@ -18,7 +18,13 @@ export type BookMember = DashboardUserEntryFragment & {
   fullName: string;
 };
 
-export type TColumnType = "string" | "number" | "currency" | "boolean" | "date";
+export type TColumnType =
+  | "string"
+  | "stringToUpper"
+  | "number"
+  | "currency"
+  | "boolean"
+  | "date";
 
 export interface IUSelectColumnConfig {
   fixedColumn: boolean;
@@ -45,6 +51,10 @@ export interface IUTableColumn
   extends IBaseColumnDef,
     IUColumnOptions,
     IUSelectColumnConfig {}
+
+export interface IUTableSelectColumnOption extends IUTableColumn {
+  disabled?: boolean;
+}
 
 export type TPrimeSelectConfig = "multiselect" | "dropdown";
 
