@@ -40,6 +40,7 @@ export interface IBaseColumnDef {
 export interface IUColumnOptions {
   sortable: boolean;
   type: TColumnType;
+  globalSearch: boolean;
 }
 
 export interface IColumnDef

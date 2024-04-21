@@ -19,10 +19,13 @@ const {
   setDefaultSelected,
   selectedColumns,
   disableResetColumns,
-} = useUTable({
+  allData,
+  rows,
+  searchQ,
+} = useUTable<T>({
   selectableColumns: props.selectableColumns,
 });
-
+allData.value = props.data;
 allColumnDefs.value = props.columnOptions;
 
 const loading = computed(() => {
@@ -39,8 +42,9 @@ const loading = computed(() => {
         @click="setDefaultSelected"
         :disabled="disableResetColumns"
       />
+      <UInput v-model="searchQ" placeholder="Search..." />
     </div>
-    <UTable :rows="data" :loading="loading" :columns="selectedColumns">
+    <UTable :rows="rows" :loading="loading" :columns="selectedColumns">
       <template v-for="c of selectedColumns" v-slot:[`${c.key}-data`]="{ row }">
         <TableColumnBool v-if="c.type === 'boolean'" :val="row[c.key]" />
         <span v-if="c.type === 'stringToUpper'">{{

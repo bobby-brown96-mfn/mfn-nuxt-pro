@@ -10,11 +10,15 @@ export interface IUseTableOptions {
   selectableColumns: boolean;
 }
 
-const useUTable = ({ selectableColumns }: IUseTableOptions) => {
+const useUTable = <T extends { id: string }>({
+  selectableColumns,
+}: IUseTableOptions) => {
   const processing: Ref<boolean> = ref(false);
+  const searchQ = ref("");
   const allColumnDefs: Ref<IColumnDef[]> = ref([]);
   const columns: Ref<IUTableSelectColumnOption[]> = ref([]);
   const selectedColumns: Ref<IUTableSelectColumnOption[]> = ref([]);
+  const allData: Ref<T[]> = ref([]);
 
   const boolDefaultCheck = ({
     def,
@@ -49,15 +53,19 @@ const useUTable = ({ selectableColumns }: IUseTableOptions) => {
   };
 
   const convertColumn = (def: IColumnDef): IUTableColumn => {
-    const { label, key, ...c } = def;
+    const { label, key, type = "string", ...c } = def;
 
     const selectConfig = convertSelectConfig(c);
 
     return {
       key,
       label,
+      type,
+      globalSearch: boolDefaultCheck({
+        def: type === "string" && key !== "id",
+        val: c.globalSearch,
+      }),
       sortable: boolDefaultCheck({ def: true, val: c.sortable }),
-      type: c.type ?? "string",
       ...selectConfig,
     };
   };
@@ -116,6 +124,28 @@ const useUTable = ({ selectableColumns }: IUseTableOptions) => {
     }
   });
 
+  const rows = computed(() => {
+    if (!searchQ.value || searchQ.value === "") return allData.value;
+    else {
+      const globalFilterFields = selectedColumns.value.filter(
+        ({ globalSearch }) => globalSearch
+      );
+
+      if (globalFilterFields.length === 0) return allData.value;
+      else {
+        return allData.value.filter((d) => {
+          const { id, ...f } = d;
+          return Object.values(f).some((value) => {
+            return !isString(value)
+              ? false
+              : String(value)
+                  .toLowerCase()
+                  .includes(searchQ.value.toLowerCase());
+          });
+        });
+      }
+    }
+  });
   onMounted(() => {
     processing.value = true;
     setDefaultSelected();
@@ -129,6 +159,9 @@ const useUTable = ({ selectableColumns }: IUseTableOptions) => {
     selectedColumns,
     setDefaultSelected,
     disableResetColumns,
+    searchQ,
+    allData,
+    rows,
   };
 };
 
