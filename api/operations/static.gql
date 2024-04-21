@@ -23,3 +23,15 @@ query searchCountriesPublic($input: CountryWhereInput!) {
     ...staticCountry
   }
 }
+
+query searchListCurrencies($where: CurrencyWhereInput!) {
+  currencies(where: $where) {
+    ...listCurrency
+  }
+}
+
+query searchListCountries($input: CountryWhereInput!) {
+  countries(input: $input) {
+    ...listCountry
+  }
+}

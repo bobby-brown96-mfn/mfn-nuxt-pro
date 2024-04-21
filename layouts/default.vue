@@ -17,6 +17,31 @@ const links = [
     },
   },
   {
+    id: "lists",
+    label: "Lists",
+    icon: "i-heroicons-list-bullet-16-solid",
+    to: "/app/lists",
+    children: [
+      {
+        label: "Home",
+        to: "/app/lists",
+        exact: true,
+      },
+      {
+        label: "Currencies",
+        to: "/app/lists/currencies",
+      },
+      {
+        label: "Countries",
+        to: "/app/lists/countries",
+      },
+    ],
+    tooltip: {
+      text: "Lists",
+      shortcuts: ["G", "L"],
+    },
+  },
+  {
     id: "entities",
     label: "Entities",
     icon: "i-heroicons-queue-list-16-solid",
@@ -138,9 +163,9 @@ const colors = computed(() =>
 
         <UDivider class="sticky bottom-0" />
 
-        <template #footer>
+        <!-- <template #footer>
           <LayoutAuthDropdown position="top" />
-        </template>
+        </template> -->
       </UDashboardSidebar>
     </UDashboardPanel>
 

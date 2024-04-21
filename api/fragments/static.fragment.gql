@@ -26,3 +26,33 @@ fragment selectCurrency on Currency {
   name
   currencySymbol
 }
+
+fragment listCurrency on Currency {
+  id
+  isActive
+  updatedAt
+  createdAt
+  code
+  name
+  currencyFraction
+  currencyFractionUnits
+  currencySymbol
+  countries {
+    ...selectCountry
+  }
+}
+
+fragment listCountry on Country {
+  id
+  isActive
+  createdAt
+  updatedAt
+  name
+  code
+  countryCurrencyCode
+  locale
+  timezones
+  countryPrimaryCurrency {
+    ...selectCurrency
+  }
+}

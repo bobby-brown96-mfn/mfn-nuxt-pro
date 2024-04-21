@@ -40,7 +40,17 @@ export default defineNuxtConfig({
     },
     components: {
       prefix: "Prime",
-      include: ["DataTable", "Calendar", "Button"],
+      include: [
+        "DataTable",
+        "Calendar",
+        "Button",
+        "Column",
+        "ColumnGroup",
+        "Row",
+        "Paginator",
+        "TriStateCheckbox",
+        "TreeTable",
+      ],
     },
     composables: {
       exclude: ["useToast"],

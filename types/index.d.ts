@@ -35,3 +35,40 @@ export interface IColumnDef
 export interface IUTableColumn extends IBaseColumnDef {
   class?: string;
 }
+
+export type TPrimeSelectConfig = "multiselect" | "dropdown";
+
+export type TBasePrimeColumnType = "text" | "boolean" | "numeric" | "date";
+
+export type TPrimeSelectTypes = "bookCurrencyCodes" | "listValues";
+
+export type TPrimeColumnType =
+  | "text"
+  | "boolean"
+  | "numeric"
+  | "date"
+  | "multiselect"
+  | "dropdown";
+
+export interface IPrimeSelectColumnConfig {
+  fixedColumn: boolean;
+  selectable: boolean;
+  defaultSelected: boolean;
+}
+
+export interface IBasePrimeColumnDef {
+  field: string;
+  header: string;
+  sortable: boolean;
+  type: TPrimeColumnType;
+  selectType?: TPrimeSelectTypes;
+}
+
+export interface IPrimeColumnDef
+  extends Omit<IBasePrimeColumnDef, "sortable" | "type">,
+    Partial<Pick<IBasePrimeColumnDef, "sortable" | "type">>,
+    Partial<IPrimeSelectColumnConfig> {}
+
+export interface IPrimeColumnConfig
+  extends IBasePrimeColumnDef,
+    IPrimeSelectColumnConfig {}
