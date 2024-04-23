@@ -55,10 +55,12 @@ fragment baseEntityData on BookEntity {
   id
   createdAt
   updatedAt
-  defaultAccountNumber
+  name
+  isActive
+  system
   entityId
   entityType
-  isActive
-  name
-  system
+  defaultAccountNumber
+  bookId
+  createdById
 }

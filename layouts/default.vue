@@ -4,6 +4,7 @@ import { tooltip } from "@unovis/ts/components/tooltip/style";
 const route = useRoute();
 const appConfig = useAppConfig();
 const { isHelpSlideoverOpen } = useDashboard();
+const authStore = useAuthStore();
 
 const links = [
   {
@@ -140,6 +141,7 @@ const colors = computed(() =>
       <UDashboardNavbar class="!border-transparent" :ui="{ left: 'flex-1' }">
         <template #left>
           <LayoutBooksDropdown />
+          <h1>{{ authStore.expireDateString }}</h1>
         </template>
       </UDashboardNavbar>
 

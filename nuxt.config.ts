@@ -50,6 +50,7 @@ export default defineNuxtConfig({
         "Paginator",
         "TriStateCheckbox",
         "TreeTable",
+        "InputNumber",
       ],
     },
     composables: {

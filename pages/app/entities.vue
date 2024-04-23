@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { BaseEntityDataFragment } from "#build/graphql-operations";
+import type { BaseBookEntityFragment } from "#graphql-operations";
 import type { IColumnDef } from "~/types";
 
 useSeoMeta({
@@ -72,7 +72,7 @@ const defaultColumns = ref<IColumnDef[]>([
   },
 ]);
 
-const entities = ref<BaseEntityDataFragment[]>([]);
+const entities = ref<BaseBookEntityFragment[]>([]);
 
 const getEntities = async () => {
   isLoading.value = true;
@@ -87,6 +87,11 @@ const getEntities = async () => {
     entities.value = data.searchBookEntities;
   }
   isLoading.value = false;
+};
+
+const entityChanged = async () => {
+  isLoading.value = true;
+  await getEntities();
 };
 
 onMounted(() => {
@@ -115,7 +120,13 @@ onMounted(() => {
       </UDashboardToolbar>
 
       <UDashboardModal v-model="isNewEntityModalOpen" title="New Entity">
-        <h1>Add Entity</h1>
+        <FormNewEntity
+          :book-id="authStore.activeBookId ?? ''"
+          :user-id="authStore.activeUserId ?? ''"
+          @close="isNewEntityModalOpen = false"
+          @saved-new="entityChanged"
+          :existingBookEntities="entities"
+        />
       </UDashboardModal>
 
       <TableNuTable

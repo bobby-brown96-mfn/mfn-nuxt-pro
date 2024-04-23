@@ -196,6 +196,7 @@ onMounted(() => {
           v-else-if="c.type === 'idInteger'"
           color="black"
           variant="solid"
+          size="lg"
           >{{ row[c.key] }}</UBadge
         >
       </template></UTable

@@ -36,6 +36,13 @@ export const useAuthStore = defineStore("authStore", {
         return jwtDecode(store.accessToken) as IDecodedToken;
       }
     },
+    expireDateString(store): string | null {
+      if (!store.accessToken) return null;
+      else {
+        const decoded = jwtDecode(store.accessToken) as IDecodedToken;
+        return new Date(decoded.exp * 1000).toISOString();
+      }
+    },
     decodedRefreshToken(store) {
       if (!store.refreshToken) return null;
       else {

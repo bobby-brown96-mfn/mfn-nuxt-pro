@@ -1,6 +1,7 @@
 import { defineGraphqlServerOptions } from "nuxt-graphql-middleware/dist/runtime/serverOptions";
 import type { H3Event } from "h3";
 import type { FetchError } from "ofetch";
+import { jwtDecode } from "jwt-decode";
 
 export default defineGraphqlServerOptions({
   graphqlEndpoint(event, operation, operationName) {
@@ -21,6 +22,11 @@ export default defineGraphqlServerOptions({
       const authHeader = getHeader(event, "Authorization");
       console.log(`authHeader header is ${authHeader}`);
       if (authHeader) headers["Authorization"] = authHeader;
+
+      const decodedHeader = jwtDecode(headers["Authorization"]);
+      console.log(
+        `decodedHeader header is ${JSON.stringify(decodedHeader, null, 2)}`
+      );
     }
 
     return { headers };
