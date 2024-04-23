@@ -1,32 +1,76 @@
 <script setup lang="ts">
 import type { ListCurrencyFragment } from "#graphql-operations";
-import type { IPrimeColumnDef } from "~/types";
-useSeoMeta({
-  title: "Currencies",
-});
+import type { IPrimeColumnDef, IColumnDef } from "~/types";
+// useSeoMeta({
+//   title: "Currencies",
+// });
 
 const authStore = useAuthStore();
 
-const columnOptions: IPrimeColumnDef[] = [
+// const columnOptions: IPrimeColumnDef[] = [
+//   {
+//     field: "name",
+//     header: "Name",
+//     fixedColumn: true,
+//   },
+//   {
+//     field: "code",
+//     header: "Code",
+//   },
+//   {
+//     field: "id",
+//     header: "ID",
+//     sortable: false,
+//   },
+//   {
+//     field: "isActive",
+//     header: "Active",
+//   },
+// ];
+
+const defaultColumns = ref<IColumnDef[]>([
   {
-    field: "name",
-    header: "Name",
+    key: "code",
+    label: "Code",
+    sortable: true,
+    type: "stringToUpper",
     fixedColumn: true,
   },
   {
-    field: "code",
-    header: "Code",
+    key: "name",
+    label: "Name",
+    sortable: true,
   },
   {
-    field: "id",
-    header: "ID",
-    sortable: false,
+    key: "id",
+    label: "ID",
+    sortable: true,
   },
   {
-    field: "isActive",
-    header: "Active",
+    key: "currencyFraction",
+    label: "Fraction Name",
+    sortable: true,
   },
-];
+
+  {
+    key: "isActive",
+    label: "Active",
+    sortable: true,
+    type: "boolean",
+  },
+  {
+    key: "updatedAt",
+    label: "Updated At",
+    defaultSelected: false,
+    type: "date",
+  },
+  {
+    key: "createdAt",
+    label: "Created At",
+    defaultSelected: false,
+    type: "date",
+  },
+]);
 
 const isLoading = ref(false);
 
@@ -65,13 +109,16 @@ onMounted(() => {
 <template>
   <UDashboardPanelContent class="pb-24">
     <UDashboardCard title="Manage Currencies">
-      <UProgress v-if="isLoading" />
-      <TablePrime
-        v-else
-        :data="bookCurrencies"
-        :data-loading="isLoading"
-        :column-options="columnOptions"
-      ></TablePrime>
+      <!-- <TableBase
+        :data="bookCurrencies || []"
+        :fetching-data="isLoading"
+        :column-options="defaultColumns"
+      ></TableBase> -->
+      <TableNuTable
+        :data="bookCurrencies || []"
+        :fetching-data="isLoading"
+        :column-options="defaultColumns"
+      ></TableNuTable>
     </UDashboardCard>
   </UDashboardPanelContent>
 </template>

@@ -30,6 +30,14 @@ query searchListCurrencies($where: CurrencyWhereInput!) {
   }
 }
 
+query searchBookCurrencies($bookId: String!) {
+  currencies(
+    where: { activeCurrencyBooks: { some: { id: { equals: $bookId } } } }
+  ) {
+    ...listCurrency
+  }
+}
+
 query searchListCountries($input: CountryWhereInput!) {
   countries(input: $input) {
     ...listCountry
