@@ -76,6 +76,8 @@ onMounted(() => {
 
       <UTable :loading="isLoading" :rows="entities" :columns="columns">
       </UTable>
+
+      <!-- <TablePrime :data="entities" :data-loading="isLoading"></TablePrime> -->
     </UDashboardPanel>
   </UDashboardPage>
 </template>

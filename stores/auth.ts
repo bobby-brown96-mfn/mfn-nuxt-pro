@@ -4,6 +4,7 @@ import type {
   AppUserFragment,
   LoginInput,
   Role,
+  SelectCurrencyFragment,
 } from "#graphql-operations";
 import { jwtDecode } from "jwt-decode";
 import type { IDecodedToken } from "~/appTypes";
@@ -55,6 +56,26 @@ export const useAuthStore = defineStore("authStore", {
     userBookOptions(store): AppConnectedUserFragment[] {
       if (store.activeUser) {
         return store.activeUser.connectedBookUsers ?? [];
+      } else return [];
+    },
+    getBookCurrencies(store): string[] {
+      if (store.activeBook) {
+        // return [store.activeBook.primaryCurrencyCode];
+        if (
+          !store.activeBook.activeCurrencies ||
+          store.activeBook.activeCurrencies.length === 0
+        )
+          return [store.activeBook.primaryCurrencyCode];
+        else {
+          const activeCurrencyCodes = store.activeBook.activeCurrencies.map(
+            ({ code }) => code
+          );
+          return activeCurrencyCodes.includes(
+            store.activeBook.primaryCurrencyCode
+          )
+            ? activeCurrencyCodes
+            : [store.activeBook.primaryCurrencyCode, ...activeCurrencyCodes];
+        }
       } else return [];
     },
     // authSecondsRemaining(store):number {

@@ -1,3 +1,5 @@
+#import "~/api/fragments/static.fragment.gql"
+
 fragment authUserTokens on SignInResponse {
   refresh_token
   access_token
@@ -63,6 +65,9 @@ fragment appBook on Book {
   primaryCurrencyCode
   system
   systemUserId
+  activeCurrencies {
+    ...selectCurrency
+  }
 }
 
 fragment sessionRefreshData on AuthSession {

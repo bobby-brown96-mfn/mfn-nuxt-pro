@@ -23,3 +23,23 @@ query searchCountriesPublic($input: CountryWhereInput!) {
     ...staticCountry
   }
 }
+
+query searchListCurrencies($where: CurrencyWhereInput!) {
+  currencies(where: $where) {
+    ...listCurrency
+  }
+}
+
+query searchBookCurrencies($bookId: String!) {
+  currencies(
+    where: { activeCurrencyBooks: { some: { id: { equals: $bookId } } } }
+  ) {
+    ...listCurrency
+  }
+}
+
+query searchListCountries($input: CountryWhereInput!) {
+  countries(input: $input) {
+    ...listCountry
+  }
+}

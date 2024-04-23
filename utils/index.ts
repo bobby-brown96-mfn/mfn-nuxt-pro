@@ -9,6 +9,7 @@ import type {
 } from "~/appTypes";
 
 export * from "./data-types";
+export * from "./tables";
 export const accessDecode = (tok: string): IFormattedToken | null => {
   try {
     const decoded = jwtDecode(tok) as IDecodedToken;
@@ -68,4 +69,14 @@ export const decodeTokens = ({
     access,
     refresh,
   };
+};
+
+export const boolDefaultCheck = ({
+  def,
+  val,
+}: {
+  def: boolean;
+  val: unknown;
+}): boolean => {
+  return isBoolean(val) ? val : def;
 };

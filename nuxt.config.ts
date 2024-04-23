@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import path from "path";
+
 export default defineNuxtConfig({
   extends: [process.env.NUXT_UI_PRO_PATH || "@nuxt/ui-pro"],
   modules: [
@@ -11,6 +13,7 @@ export default defineNuxtConfig({
     "nuxt-og-image",
     "nuxt-graphql-middleware",
     "@pinia/nuxt",
+    "nuxt-primevue",
   ],
   hooks: {
     // Define `@nuxt/ui` components as global to use them in `.md` (feel free to add those you need)
@@ -30,6 +33,29 @@ export default defineNuxtConfig({
   },
   ui: {
     icons: ["heroicons", "simple-icons"],
+  },
+  primevue: {
+    options: {
+      unstyled: true,
+    },
+    components: {
+      prefix: "Prime",
+      include: [
+        "DataTable",
+        "Calendar",
+        "Button",
+        "Column",
+        "ColumnGroup",
+        "Row",
+        "Paginator",
+        "TriStateCheckbox",
+        "TreeTable",
+      ],
+    },
+    composables: {
+      exclude: ["useToast"],
+    },
+    importPT: { from: path.resolve(__dirname, "./presets/lara/") },
   },
   routeRules: {
     "/api/search.json": { prerender: true },

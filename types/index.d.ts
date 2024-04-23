@@ -18,20 +18,78 @@ export type BookMember = DashboardUserEntryFragment & {
   fullName: string;
 };
 
-export type TColumnType = "string" | "number" | "currency" | "boolean" | "date";
+export type TColumnType =
+  | "string"
+  | "stringToUpper"
+  | "number"
+  | "currency"
+  | "boolean"
+  | "date";
+
+export interface IUSelectColumnConfig {
+  fixedColumn: boolean;
+  selectable: boolean;
+  defaultSelected: boolean;
+}
 
 export interface IBaseColumnDef {
   label: string;
   key: string;
+}
+
+export interface IUColumnOptions {
   sortable: boolean;
+  type: TColumnType;
+  globalSearch: boolean;
 }
 
 export interface IColumnDef
-  extends Omit<IBaseColumnDef, "sortable">,
-    Partial<Pick<IBaseColumnDef, "sortable">> {
-  type: TColumnType;
+  extends IBaseColumnDef,
+    Partial<IUColumnOptions>,
+    Partial<IUSelectColumnConfig> {}
+
+export interface IUTableColumn
+  extends IBaseColumnDef,
+    IUColumnOptions,
+    IUSelectColumnConfig {}
+
+export interface IUTableSelectColumnOption extends IUTableColumn {
+  disabled?: boolean;
 }
 
-export interface IUTableColumn extends IBaseColumnDef {
-  class?: string;
+export type TPrimeSelectConfig = "multiselect" | "dropdown";
+
+export type TBasePrimeColumnType = "text" | "boolean" | "numeric" | "date";
+
+export type TPrimeSelectTypes = "bookCurrencyCodes" | "listValues";
+
+export type TPrimeColumnType =
+  | "text"
+  | "boolean"
+  | "numeric"
+  | "date"
+  | "multiselect"
+  | "dropdown";
+
+export interface IPrimeSelectColumnConfig {
+  fixedColumn: boolean;
+  selectable: boolean;
+  defaultSelected: boolean;
 }
+
+export interface IBasePrimeColumnDef {
+  field: string;
+  header: string;
+  sortable: boolean;
+  type: TPrimeColumnType;
+  selectType?: TPrimeSelectTypes;
+}
+
+export interface IPrimeColumnDef
+  extends Omit<IBasePrimeColumnDef, "sortable" | "type">,
+    Partial<Pick<IBasePrimeColumnDef, "sortable" | "type">>,
+    Partial<IPrimeSelectColumnConfig> {}
+
+export interface IPrimeColumnConfig
+  extends IBasePrimeColumnDef,
+    IPrimeSelectColumnConfig {}
