@@ -1,45 +1,64 @@
 <script lang="ts" setup>
 import type { BaseEntityDataFragment } from "#build/graphql-operations";
+import type { IColumnDef } from "~/types";
 
 useSeoMeta({
   title: "Entities",
 });
 
-const isLoading = ref(false);
+const toast = useToast();
+
 const authStore = useAuthStore();
 
-const defaultColumns = [
+const isLoading = ref(false);
+const isEntityModalOpen = ref(false);
+
+const defaultColumns = ref<IColumnDef[]>([
   {
     key: "entityId",
     label: "#",
     sortable: true,
-  },
-  {
-    key: "name",
-    label: "Name",
-    sortable: true,
+    fixedColumn: true,
+    type: "idInteger",
   },
   {
     key: "id",
     label: "ID",
     sortable: true,
+    defaultSelected: false,
   },
+
+  {
+    key: "name",
+    label: "Name",
+    sortable: true,
+  },
+
   {
     key: "entityType",
     label: "Entity Type",
     sortable: true,
+    type: "select",
   },
   {
     key: "defaultAccountNumber",
     label: "Default Account Number",
     sortable: true,
+    type: "number",
   },
   {
     key: "system",
     label: "System",
     sortable: true,
+    type: "boolean",
   },
-];
+  {
+    key: "isActive",
+    label: "Active",
+    sortable: true,
+    type: "boolean",
+  },
+]);
 
 const entities = ref<BaseEntityDataFragment[]>([]);
 
@@ -58,13 +77,8 @@ const getEntities = async () => {
   isLoading.value = false;
 };
 
-const q = ref("");
-const selectedColumns = ref(defaultColumns);
-const columns = computed(() =>
-  defaultColumns.filter((column) => selectedColumns.value.includes(column))
-);
-
 onMounted(() => {
+  isLoading.value = true;
   getEntities();
 });
 </script>
@@ -72,12 +86,17 @@ onMounted(() => {
 <template>
   <UDashboardPage>
     <UDashboardPanel grow>
-      <UDashboardNavbar title="Entities"></UDashboardNavbar>
+      <UDashboardNavbar title="Entities">
+        <template #right>
+          <LayoutAuthDropdown position="bottom" />
+        </template>
+      </UDashboardNavbar>
 
-      <UTable :loading="isLoading" :rows="entities" :columns="columns">
-      </UTable>
-
-      <!-- <TablePrime :data="entities" :data-loading="isLoading"></TablePrime> -->
+      <TableNuTable
+        :data="entities"
+        :fetching-data="isLoading"
+        :column-options="defaultColumns"
+      ></TableNuTable>
     </UDashboardPanel>
   </UDashboardPage>
 </template>

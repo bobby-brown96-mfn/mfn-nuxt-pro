@@ -22,9 +22,11 @@ export type TColumnType =
   | "string"
   | "stringToUpper"
   | "number"
+  | "idInteger"
   | "currency"
   | "boolean"
-  | "date";
+  | "date"
+  | "select";
 
 export interface IUSelectColumnConfig {
   fixedColumn: boolean;

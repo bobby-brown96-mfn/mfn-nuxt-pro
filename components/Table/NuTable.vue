@@ -185,10 +185,19 @@ onMounted(() => {
     </div>
     <UTable :rows="rows" :loading="loading" :columns="selectedColumns">
       <template v-for="c of selectedColumns" v-slot:[`${c.key}-data`]="{ row }">
-        <TableColumnBool v-if="c.type === 'boolean'" :val="row[c.key]" />
-        <span v-if="c.type === 'stringToUpper'">{{
+        <UBadge v-if="c.key === 'id'" color="gray" variant="solid">{{
+          row[c.key]
+        }}</UBadge>
+        <TableColumnBool v-else-if="c.type === 'boolean'" :val="row[c.key]" />
+        <span v-else-if="c.type === 'stringToUpper'">{{
           row[c.key].toUpperCase()
         }}</span>
+        <UBadge
+          v-else-if="c.type === 'idInteger'"
+          color="black"
+          variant="solid"
+          >{{ row[c.key] }}</UBadge
+        >
       </template></UTable
     >
   </div>
