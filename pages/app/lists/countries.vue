@@ -1,8 +1,15 @@
 <script setup lang="ts">
-import type { UTable } from "#components";
 import type { ListCountryFragment } from "#graphql-operations";
+import type { IColumnDef } from "~/types";
 
-const defaultColumns = [
+const defaultColumns = ref<IColumnDef[]>([
+  {
+    key: "code",
+    label: "Code",
+    sortable: true,
+    type: "stringToUpper",
+    fixedColumn: true,
+  },
   {
     key: "name",
     label: "Name",
@@ -13,23 +20,20 @@ const defaultColumns = [
     label: "ID",
     sortable: true,
   },
-  {
-    key: "code",
-    label: "Code",
-    sortable: true,
-  },
+
   {
     key: "isActive",
     label: "Active",
     sortable: true,
     type: "boolean",
   },
-];
-
-const tagCols = ref(["code", "id"]);
-
-//const countries = ref<ListCountryFragment[]>([])
-const tableRef = ref<InstanceType<typeof UTable> | null>(null);
+  {
+    key: "updatedAt",
+    label: "Updated At",
+    defaultSelected: false,
+    type: "date",
+  },
+]);
 
 const {
   data: countries,
@@ -45,21 +49,10 @@ const {
 
 <template>
   <UDashboardPanelContent class="pb-24">
-    <UTable
-      :ui="{
-        td: { base: 'max-w-[0] truncate' },
-        default: { checkbox: { color: 'gray' } },
-      }"
-      :rows="countries || []"
-      :columns="defaultColumns"
-      :loading="pending"
-    >
-      <template v-for="c of defaultColumns" v-slot:[`${c.key}-data`]="{ row }">
-        <TableColumnBool v-if="c.type === 'boolean'" :val="row[c.key]" />
-      </template>
-      <!-- <template #isActive-data="{ row }">
-        <TableColumnBool :val="row.isActive" />
-      </template> -->
-    </UTable>
+    <TableBase
+      :data="countries || []"
+      :fetching-data="pending"
+      :column-options="defaultColumns"
+    ></TableBase>
   </UDashboardPanelContent>
 </template>

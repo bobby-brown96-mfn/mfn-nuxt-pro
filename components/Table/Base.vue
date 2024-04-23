@@ -36,13 +36,16 @@ const loading = computed(() => {
 
 <template>
   <div>
-    <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
+    <div class="grid lg:grid-cols-2 lg:items-start gap-8 mt-8">
       <USelectMenu multiple :options="columns" v-model="selectedColumns" />
       <UButton
         label="Reset Columns"
         @click="setDefaultSelected"
         :disabled="disableResetColumns"
       />
+      <UInput v-model="searchQ" placeholder="Search..." />
+    </div>
+    <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
       <UInput v-model="searchQ" placeholder="Search..." />
     </div>
     <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
