@@ -1,0 +1,13 @@
+fragment baseBookEntity on BookEntity {
+  id
+  createdAt
+  updatedAt
+  name
+  isActive
+  system
+  entityId
+  entityType
+  defaultAccountNumber
+  bookId
+  createdById
+}

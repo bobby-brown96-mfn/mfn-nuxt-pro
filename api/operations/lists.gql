@@ -1,0 +1,28 @@
+#import "~/api/fragments/lists.fragment.gql"
+
+query searchAllBookEntities($where: BookEntityWhereInput!) {
+  searchBookEntities(where: $where) {
+    ...baseBookEntity
+  }
+}
+
+query searchEntitiesByBookId($bookId: String!) {
+  searchBookEntities(where: { bookId: { equals: $bookId } }) {
+    ...baseBookEntity
+  }
+}
+
+mutation createBookEntity($input: NewBookEntityInput!) {
+  createBookEntity(input: $input) {
+    ...baseBookEntity
+  }
+}
+
+mutation updateBookEntity(
+  $get: BookEntityFindInput!
+  $input: EditBookEntityInput!
+) {
+  updateBookEntity(get: $get, input: $input) {
+    ...baseBookEntity
+  }
+}
