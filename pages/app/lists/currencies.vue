@@ -7,6 +7,10 @@ import type { IPrimeColumnDef, IColumnDef } from "~/types";
 
 const authStore = useAuthStore();
 
+const isBookCurrencyModalOpen = ref(false);
+
+const toast = useToast();
+
 // const columnOptions: IPrimeColumnDef[] = [
 //   {
 //     field: "name",
