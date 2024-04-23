@@ -11,7 +11,7 @@ const toast = useToast();
 const authStore = useAuthStore();
 
 const isLoading = ref(false);
-const isEntityModalOpen = ref(false);
+const isNewEntityModalOpen = ref(false);
 
 const defaultColumns = ref<IColumnDef[]>([
   {
@@ -58,6 +58,18 @@ const defaultColumns = ref<IColumnDef[]>([
     sortable: true,
     type: "boolean",
   },
+  {
+    key: "updatedAt",
+    label: "Updated At",
+    defaultSelected: false,
+    type: "date",
+  },
+  {
+    key: "createdAt",
+    label: "Created At",
+    defaultSelected: false,
+    type: "date",
+  },
 ]);
 
 const entities = ref<BaseEntityDataFragment[]>([]);
@@ -91,6 +103,20 @@ onMounted(() => {
           <LayoutAuthDropdown position="bottom" />
         </template>
       </UDashboardNavbar>
+
+      <UDashboardToolbar>
+        <template #left>
+          <UButton
+            label="New Entity"
+            trailing-icon="i-heroicons-plus"
+            color="gray"
+            @click="isNewEntityModalOpen = true"
+        /></template>
+      </UDashboardToolbar>
+
+      <UDashboardModal v-model="isNewEntityModalOpen" title="New Entity">
+        <h1>Add Entity</h1>
+      </UDashboardModal>
 
       <TableNuTable
         :data="entities"
