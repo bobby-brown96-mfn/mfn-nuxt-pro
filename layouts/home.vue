@@ -11,7 +11,17 @@ const links = ref([
     to: "/home",
     tooltip: {
       text: "Home",
-      shortcuts: ["G", "H"],
+      shortcuts: ["B", "H"],
+    },
+  },
+  {
+    id: "books",
+    label: "Books",
+    icon: "i-heroicons-book-open",
+    to: "/home/books",
+    tooltip: {
+      text: "Books",
+      shortcuts: ["B", "B"],
     },
   },
 ]);
@@ -64,6 +74,13 @@ const colors = computed(() =>
           :links="[{ label: 'Colors', draggable: true, children: colors }]"
           @update:links="(colors) => (defaultColors = colors)"
         />
+
+        <UDivider class="sticky bottom-0" />
+
+        <template #footer>
+          <UColorModeToggle />
+          <!-- <LayoutAuthDropdown position="top" /> -->
+        </template>
       </UDashboardSidebar>
     </UDashboardPanel>
 

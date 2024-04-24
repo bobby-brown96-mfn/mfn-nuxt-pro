@@ -7,10 +7,9 @@ const _useHomeDashboard = () => {
   const isNotificationsSlideoverOpen = ref(false);
 
   defineShortcuts({
-    "g-h": () => router.push("/home"),
-    "g-b": () => router.push("/home/books"),
-    "g-u": () => router.push("/home/users"),
-    "g-s": () => router.push("/home/settings"),
+    "b-h": () => router.push("/home"),
+    "b-b": () => router.push("/home/books"),
+    "b-u": () => router.push("/home/users"),
     "?": () => (isHelpSlideoverOpen.value = true),
     n: () => (isNotificationsSlideoverOpen.value = true),
   });
