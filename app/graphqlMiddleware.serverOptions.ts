@@ -14,19 +14,21 @@ export default defineGraphqlServerOptions({
     console.log(`serverFetchOptions operation = ${operation}`);
     console.log(`serverFetchOptions operationName = ${operationName}`);
     const headers: HeadersInit = {};
-    if (event && operationName !== "signin") {
+    if (event && operationName) {
       const cookieHeader = getHeader(event, "cookie");
       console.log(`cookie header is ${cookieHeader}`);
       if (cookieHeader) headers["Cookie"] = cookieHeader;
 
       const authHeader = getHeader(event, "Authorization");
       console.log(`authHeader header is ${authHeader}`);
-      if (authHeader) headers["Authorization"] = authHeader;
+      if (authHeader) {
+        headers["Authorization"] = authHeader;
 
-      const decodedHeader = jwtDecode(headers["Authorization"]);
-      console.log(
-        `decodedHeader header is ${JSON.stringify(decodedHeader, null, 2)}`
-      );
+        const decodedHeader = jwtDecode(headers["Authorization"]);
+        console.log(
+          `decodedHeader header is ${JSON.stringify(decodedHeader, null, 2)}`
+        );
+      }
     }
 
     return { headers };
