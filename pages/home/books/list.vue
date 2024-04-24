@@ -45,32 +45,44 @@ const isLoading = ref(false);
 
 //const books = ref<HomeBookEntryFragment[]>([]);
 
-const {
-  data: booksData,
-  pending,
-  refresh,
-} = useAsyncData<HomeBookEntryFragment[]>(
-  "dashBooks",
-  async () => {
-    const { data } = await useGraphqlQuery("homeBooksList", {
-      where: {
-        isActive: { equals: true },
-      },
-    });
+// const {
+//   data: booksData,
+//   pending,
+//   refresh,
+// } = useAsyncData<HomeBookEntryFragment[]>(
+//   "dashBooks",
+//   async () => {
+//     const { data } = await useGraphqlQuery("homeBooksList", {
+//       where: {
+//         isActive: { equals: true },
+//       },
+//     });
 
-    return data.books;
-  },
-  {
-    server: false,
-    lazy: true,
-  }
-);
+//     return data.books;
+//   },
+//   {
+//     server: false,
+//     lazy: true,
+//   }
+// );
+
+const bookDashStore = useBookHomeStore();
+
+onMounted(() => {
+  isLoading.value = true;
+  bookDashStore.getBookData().then(() => (isLoading.value = false));
+});
 </script>
 
 <template>
   <UDashboardPanelContent class="pb-24">
-    <UCard>
-      <pre>{{ booksData }}</pre>
-    </UCard>
+    <TableNuSelectCols
+      :data="bookDashStore.bookData || []"
+      :column-options="defaultColumns"
+      title="List Books"
+      row-name="Book"
+      :fetching-data="bookDashStore.isProcessing || isLoading"
+      actions-column="start"
+    ></TableNuSelectCols>
   </UDashboardPanelContent>
 </template>

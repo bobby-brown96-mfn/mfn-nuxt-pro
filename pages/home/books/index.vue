@@ -1,26 +1,32 @@
 <script setup lang="ts">
 import { type HomeBookEntryFragment, Role } from "#graphql-operations";
 
-const {
-  data: booksData,
-  pending,
-  refresh,
-} = useAsyncData<HomeBookEntryFragment[]>(
-  "dashBooks",
-  async () => {
-    const { data } = await useGraphqlQuery("homeBooksList", {
-      where: {
-        isActive: { equals: true },
-      },
-    });
+// const {
+//   data: booksData,
+//   pending,
+//   refresh,
+// } = useAsyncData<HomeBookEntryFragment[]>(
+//   "dashBooks",
+//   async () => {
+//     const { data } = await useGraphqlQuery("homeBooksList", {
+//       where: {
+//         isActive: { equals: true },
+//       },
+//     });
 
-    return data.books;
-  },
-  {
-    server: false,
-    lazy: true,
-  }
-);
+//     return data.books;
+//   },
+//   {
+//     server: false,
+//     lazy: true,
+//   }
+// );
+
+const bookDashStore = useBookHomeStore();
+
+onMounted(() => {
+  bookDashStore.getBookData();
+});
 </script>
 
 <template>
@@ -34,7 +40,7 @@ const {
       </template>
     </UDashboardSection>
     <UDashboardSection>
-      <pre>{{ booksData }}</pre>
+      <pre>{{ bookDashStore.bookData }}</pre>
     </UDashboardSection>
   </UDashboardPanelContent>
 </template>
