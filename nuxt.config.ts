@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     "nuxt-graphql-middleware",
     "@pinia/nuxt",
     "nuxt-primevue",
+    "@nuxt/test-utils/module",
   ],
   hooks: {
     // Define `@nuxt/ui` components as global to use them in `.md` (feel free to add those you need)
