@@ -14,7 +14,7 @@ export default defineGraphqlServerOptions({
     console.log(`serverFetchOptions operation = ${operation}`);
     console.log(`serverFetchOptions operationName = ${operationName}`);
     const headers: HeadersInit = {};
-    if (event) {
+    if (event && operationName !== "signin") {
       const cookieHeader = getHeader(event, "cookie");
       console.log(`cookie header is ${cookieHeader}`);
       if (cookieHeader) headers["Cookie"] = cookieHeader;
