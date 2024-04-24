@@ -23,6 +23,21 @@ const links = ref([
       text: "Books",
       shortcuts: ["B", "B"],
     },
+    children: [
+      {
+        label: "Dashboard",
+        to: "/home/books",
+        exact: true,
+      },
+      {
+        label: "List",
+        to: "/home/books/list",
+      },
+      {
+        label: "Manage",
+        to: "/home/books/manage",
+      },
+    ],
   },
 ]);
 

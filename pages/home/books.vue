@@ -11,8 +11,19 @@ useSeoMeta({
 const links = ref([
   {
     label: "Dashboard",
-    to: "/books",
-    icon: "i-heroicons-home",
+    to: "/home/books",
+    icon: "i-heroicons-home-20-solid",
+    exact: true,
+  },
+  {
+    label: "List",
+    to: "/home/books/list",
+    icon: "i-heroicons-list-bullet-20-solid",
+  },
+  {
+    label: "Manage",
+    to: "/home/books/manage",
+    icon: "i-heroicons-cog-20-solid",
   },
 ]);
 </script>
