@@ -144,5 +144,6 @@ onMounted(() => {
       />
       <UButton type="submit" label="Save" color="black" />
     </div>
+    <pre>{{ getNextEntityNumber }}</pre>
   </UForm>
 </template>
